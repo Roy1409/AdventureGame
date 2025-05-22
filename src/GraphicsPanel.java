@@ -10,13 +10,13 @@ import java.util.ArrayList;
 public class GraphicsPanel extends JPanel implements ActionListener, KeyListener, MouseListener {
     private BufferedImage background;
     private Timer timer;
-    private earth player;
+    private water player;
     private boolean[] pressedKeys;
     public GraphicsPanel() {
         timer = new Timer(2, this);
         timer.start();
 
-        player= new earth();
+        player= new water();
         pressedKeys = new boolean[128]; // 128 keys on keyboard, max keycode is 127
         addKeyListener(this);
         addMouseListener(this);
@@ -58,6 +58,10 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         if (pressedKeys[83]) {
             player.moveDown();
         }
+
+        if (pressedKeys[69]) {
+            player.attack();
+        }
     }
 
 
@@ -65,7 +69,13 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     // ActionListener interface method
     @Override
     public void actionPerformed(ActionEvent e) {
-        // repaints the window every 10ms
+        if (player!=null) {
+        if (player.getyCoord()!=435) {
+            player.fall();
+        }else {
+            player.setJumping(false);
+        }}
+
         repaint();
     }
 
