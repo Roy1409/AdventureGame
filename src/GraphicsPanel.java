@@ -75,11 +75,15 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
     @Override
     public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+        pressedKeys[key] = true;
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        int key = e.getKeyCode();
+        pressedKeys[key] = false;
     }
 
     // MouseListener interface methods

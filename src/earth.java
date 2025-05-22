@@ -56,6 +56,7 @@ public class earth extends Character {
         }
 
 
+
         animation = new Animation(images, 50);
         idle = new Animation(x, 50);
     }}
