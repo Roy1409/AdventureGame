@@ -10,13 +10,13 @@ import java.util.ArrayList;
 public class GraphicsPanel extends JPanel implements ActionListener, KeyListener, MouseListener {
     private BufferedImage background;
     private Timer timer;
-    private water player;
+    private earth player;
     private boolean[] pressedKeys;
     public GraphicsPanel() {
         timer = new Timer(2, this);
         timer.start();
 
-        player= new water();
+        player= new earth();
         pressedKeys = new boolean[128]; // 128 keys on keyboard, max keycode is 127
         addKeyListener(this);
         addMouseListener(this);

@@ -24,7 +24,7 @@ public class earth extends Character {
         yCoord = 435;
         score = 0;
         try {
-            right = ImageIO.read(new File("src\\marioright.png"));
+            right = ImageIO.read(new File("src\\eidle_1.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -33,8 +33,8 @@ public class earth extends Character {
         //The code below is used to create an ArrayList of BufferedImages to use for an Animation object
         //By creating all the BufferedImages beforehand, we don't have to worry about lagging trying to read image files during gameplay
         ArrayList<BufferedImage> images = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            String filename = "src\\tile00" + i + ".png";
+        for (int i = 1; i < 9; i++) {
+            String filename = "src\\erun_" + i + ".png";
             try {
                 images.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
@@ -46,8 +46,8 @@ public class earth extends Character {
         ArrayList<BufferedImage> x = new ArrayList<>();
 
 
-        for (int i = 0; i < 3; i++) {
-            String filename = "src\\widle_" + i + ".png";
+        for (int i = 1; i < 6; i++) {
+            String filename = "src\\eidle_" + i + ".png";
             try {
                 x.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
