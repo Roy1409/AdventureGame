@@ -129,8 +129,8 @@ public class character {
     }
 
     public void moveRight() {
-        if (xCoord + 3 <= 920) {
-            xCoord += 3;
+        if (xCoord + .25 <= 700) {
+            xCoord += .5;
             if (yCoord == 435) {
                 y = false;
                 jumping = false;
