@@ -46,7 +46,10 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(b0,x,-220,null);
-            g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
+        g.drawImage(b0,x+928,-220,null);
+
+
+        g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
 
 
 
@@ -56,7 +59,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         if (pressedKeys[65]) {
             player.faceLeft();
             player.moveLeft();
-            x++;
+            x+=3;
 
         }
 
@@ -65,7 +68,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         if (pressedKeys[68]) {
             player.faceRight();
             player.moveRight();
-            x--;
+            x-=3;
         }
 
 
