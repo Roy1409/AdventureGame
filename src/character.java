@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class earth extends Character {
+public class character {
     private final int MOVE_AMT = 3;
     private BufferedImage right;
     private boolean facingRight;
@@ -16,27 +16,29 @@ public class earth extends Character {
     private Animation animation;
     private Animation idle;
     private Animation jump;
+    private Animation attacking;
     private boolean y;
+    private boolean jumping;
+    private boolean attack;
 
 
-
-    public earth() {
+    public character() {
         facingRight = true;
-        xCoord = 50; // starting position is (50, 435), right on top of ground
+        xCoord = 50;
         yCoord = 435;
         score = 0;
+/*
         try {
-            right = ImageIO.read(new File("src\\images\\eidle_1.png"));
+            right = ImageIO.read(new File("src\\images\\widle1.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+*/
 
 
-        //The code below is used to create an ArrayList of BufferedImages to use for an Animation object
-        //By creating all the BufferedImages beforehand, we don't have to worry about lagging trying to read image files during gameplay
         ArrayList<BufferedImage> images = new ArrayList<>();
-        for (int i = 1; i < 9; i++) {
-            String filename = "src\\images\\erun_" + i + ".png";
+        for (int i = 0; i < 16; i++) {
+            String filename = "src\\images\\tile00"+ i + ".png";
             try {
                 images.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
@@ -44,26 +46,44 @@ public class earth extends Character {
             }
         }
 
-
-
-
         ArrayList<BufferedImage> x = new ArrayList<>();
 
-
-        for (int i = 1; i < 6; i++) {
-            String filename = "src\\images\\eidle_" + i + ".png";
+/*
+        for (int i = 1; i < 9; i++) {
+            String filename = "src\\images\\widle_" + i + ".png";
             try {
                 x.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
+        }*/
+        /*ArrayList<BufferedImage> jumps=new ArrayList<>();
+        for (int i=1; i<4; i++) {
+            String filename = "src\\images\\wj_up_"+ i + ".png";
+            try {
+                jumps.add(ImageIO.read(new File(filename)));
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
+        ArrayList<BufferedImage> attk=new ArrayList<>();
+        for (int i=1; i<28; i++) {
+            String filename = "src\\images\\w3_atk_"+ i + ".png";
+            try {
+                attk.add(ImageIO.read(new File(filename)));
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+*/
 
 
-
-        animation = new Animation(images, 50);
-        idle = new Animation(x, 50);
+        animation = new Animation(images, 100);
+      /*  idle = new Animation(x, 100);*/
+       /* jump= new Animation(jumps,100);
+        attacking=new Animation(attk,50);*/
     }
+
     public int getxCoord() {
         if (facingRight) {
             return xCoord;
@@ -111,33 +131,56 @@ public class earth extends Character {
     public void moveRight() {
         if (xCoord + MOVE_AMT <= 920) {
             xCoord += MOVE_AMT;
-            y=false;
-        }
-    }
+            if (yCoord == 435) {
+                y = false;
+                jumping = false;
+                attack=false;
+            }}}
+
 
     public void moveLeft() {
         if (xCoord - MOVE_AMT >= 0) {
             xCoord -= MOVE_AMT;
-            y=false;
-        }
-    }
+            if (yCoord==435) {
+                y=false;
+                jumping=false;
+                attack=false;
+            }
+    }}
 
 
     public void moveUp() {
+        if (yCoord==435) {
+            yCoord -= 100;
             y=false;
-
+            jumping=true;
+            attack=false;
+        }
     }
 
     public void moveDown() {
         if (yCoord + MOVE_AMT <= 435) {
             yCoord += MOVE_AMT;
+            if (yCoord==435) {
             y=false;
-        }
+            jumping=false;
+                attack=false;
+            }  }
+    }
+
+    public void attack() {
+        attack=true;
     }
 
     public BufferedImage getPlayerImage() {
         if (!y) {
             return animation.getActiveFrame(); }
+        if (jumping) {
+            return jump.getActiveFrame();
+        }
+        if (attack){
+            return attacking.getActiveFrame();
+        }
         return idle.getActiveFrame();
     }
 
@@ -150,5 +193,13 @@ public class earth extends Character {
 
     public void idle() {
         y=true;
+    }
+
+    public void setJumping(boolean x){
+        jumping=x;
+    }
+
+    public void fall() {
+        yCoord++;
     }
 }

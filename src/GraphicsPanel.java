@@ -10,18 +10,19 @@ import java.util.ArrayList;
 public class GraphicsPanel extends JPanel implements ActionListener, KeyListener, MouseListener {
     private BufferedImage background;
     private Timer timer;
-    private water player;
+    private character player;
     private boolean[] pressedKeys;
     private BufferedImage b0;
-
+    private int x;
 
 
 
     public GraphicsPanel() {
         timer = new Timer(2, this);
         timer.start();
+       x=0;
 
-        player= new water();
+        player= new character();
         pressedKeys = new boolean[128]; // 128 keys on keyboard, max keycode is 127
         addKeyListener(this);
         addMouseListener(this);
@@ -44,24 +45,19 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(b0,0,0,null);
-
-
-
-/*
-
-        super.paintComponent(g);
+        g.drawImage(b0,x,-220,null);
             g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
 
 
-        if (!pressedKeys[65] && !pressedKeys[68] && !pressedKeys[87] && !pressedKeys[83]) {
-            player.idle();
-        }
+
+
 
 
         if (pressedKeys[65]) {
             player.faceLeft();
             player.moveLeft();
+            x++;
+
         }
 
 
@@ -69,6 +65,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         if (pressedKeys[68]) {
             player.faceRight();
             player.moveRight();
+            x--;
         }
 
 
@@ -99,7 +96,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }else {
             player.setJumping(false);
         }}
-*/
+
+
 
         repaint();
     }
@@ -139,8 +137,4 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     @Override
     public void mouseExited(MouseEvent e) { } // unimplemented
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }
