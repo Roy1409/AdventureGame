@@ -12,6 +12,11 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Timer timer;
     private water player;
     private boolean[] pressedKeys;
+    private BufferedImage b0;
+
+
+
+
     public GraphicsPanel() {
         timer = new Timer(2, this);
         timer.start();
@@ -22,10 +27,29 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         addMouseListener(this);
         setFocusable(true); // this line of code + one below makes this panel active for keylistener events
         requestFocusInWindow(); // see comment above
+
+
+        try{
+
+                 b0= ImageIO.read(new File("src\\images\\Background.png"));
+
+
+        }catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+
+
     }
 
     @Override
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(b0,0,0,null);
+
+
+
+/*
+
         super.paintComponent(g);
             g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
 
@@ -75,6 +99,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }else {
             player.setJumping(false);
         }}
+*/
 
         repaint();
     }
@@ -113,4 +138,9 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
     @Override
     public void mouseExited(MouseEvent e) { } // unimplemented
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 }
