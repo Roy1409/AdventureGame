@@ -13,6 +13,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private character player;
     private boolean[] pressedKeys;
     private BufferedImage b0;
+    private BufferedImage b1;
     private int x;
 
 
@@ -33,6 +34,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         try{
 
                  b0= ImageIO.read(new File("src\\images\\Background.png"));
+                 b1=ImageIO.read(new File("src\\images\\layer_2.png"));
 
 
         }catch (IOException e) {
@@ -47,6 +49,9 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         super.paintComponent(g);
         g.drawImage(b0,x,-220,null);
         g.drawImage(b0,x+928,-220,null);
+        g.drawImage(b1,x+(928*2),-20,null);
+        g.drawImage(b1,x+(928*3),-20,null);
+
 
 
         g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
