@@ -56,6 +56,13 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         g.drawImage(b0,x+(928*6),-220,null);
         g.drawImage(b0,x+(928*7),-220,null);
         g.drawImage(b0,x+(928*8),-220,null);
+        g.drawImage(b0,x+(928*9),-220,null);
+        g.drawImage(b0,x+(928*10),-220,null);
+        g.drawImage(b0,x+(928*11),-220,null);
+        g.drawImage(b0,x+(928*12),-220,null);
+        g.drawImage(b0,x+(928*13),-220,null);
+        g.drawImage(b0,x+(928*14),-220,null);
+        g.drawImage(b0,x+(928*15),-220,null);
 
 
 
