@@ -11,6 +11,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage background;
     private Timer timer;
     private character player;
+    private Hunter hunter;
     private boolean[] pressedKeys;
     private BufferedImage b0;
     private BufferedImage b1;
@@ -22,7 +23,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         timer = new Timer(2, this);
         timer.start();
        x=0;
-
+        hunter= new Hunter();
         player= new character();
         pressedKeys = new boolean[128]; // 128 keys on keyboard, max keycode is 127
         addKeyListener(this);
@@ -76,7 +77,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
 
         g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
-
+        g.drawImage(hunter.getPlayerImage(),hunter.getxCoord(),hunter.getyCoord(),hunter.getWidth(),hunter.getHeight(),null);
 
 
 
