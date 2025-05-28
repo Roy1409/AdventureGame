@@ -37,8 +37,8 @@ public class character {
 
 
         ArrayList<BufferedImage> images = new ArrayList<>();
-        for (int i = 0; i < 16; i++) {
-            String filename = "src\\images\\tile00"+ i + ".png";
+        for (int i = 0; i < 9; i++) {
+            String filename = "src\\images\\run"+ i + ".png";
             try {
                 images.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
