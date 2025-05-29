@@ -173,13 +173,14 @@ public class character {
         if (!isIdle) {
             return animation.getActiveFrame();
         }
-        if (jumping) {
+     /*   if (jumping) {
             return jump.getActiveFrame();
-        }
+        }*/
         if (attack){
             return attacking.getActiveFrame();
         }
         return idle.getActiveFrame();
+
     }
 
     public Rectangle playerRect() {
@@ -199,6 +200,10 @@ public class character {
 
     public void fall() {
         yCoord++;
+    }
+
+    public boolean isattacking() {
+        return attack;
     }
 
 

@@ -16,10 +16,14 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage b0;
     private BufferedImage b1;
     private int x;
+    private int count;
+    private JTextField text;
 
 
 
     public GraphicsPanel() {
+        text=new JTextField("0 Gold",10);
+        count=0;
         timer = new Timer(2, this);
         timer.start();
        x=0;
@@ -31,7 +35,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         addMouseListener(this);
         setFocusable(true); // this line of code + one below makes this panel active for keylistener events
         requestFocusInWindow(); // see comment above
-
+        add(text);
+        text.setLocation(0,50);
 
         try{
 
@@ -65,6 +70,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         g.drawImage(b0,x+(1856*13),-475,null);
         g.drawImage(b0,x+(1856*14),-475,null);
         g.drawImage(b0,x+(1856*15),-475,null);
+        text.setText(count+" Gold");
+
 
 
 
@@ -76,19 +83,26 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
 
         player.idle();
-        g.drawImage(slime.getPlayerImage(),slime.getxCoord(),slime.getyCoord(),slime.getWidth(),slime.getHeight(),null);
+        if(!slime.isdead()) {
+            g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
+        }
         g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
 
 
+if (player.getxCoord()>slime.getxCoord()) {
+    slime.moveRight();
+    slime.faceRight();
+}
+        if (player.getxCoord()<slime.getxCoord()) {
+            slime.moveLeft();
+            slime.faceLeft();
 
+        }
 
         if (pressedKeys[65]) {
             player.faceLeft();
             player.moveLeft();
             x+=3;
-            slime.moveLeft();
-
-
         }
 
 
@@ -97,13 +111,9 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             player.faceRight();
             player.moveRight();
             x-=3;
-            if (slime.getxCoord()<player.getxCoord()) {
-                slime.moveRight();
-            } else {
-           slime.moveLeft();
             }
 
-        }
+
 
 
         // player moves up (W)
@@ -124,12 +134,22 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         if (slime.playerRect().intersects(player.playerRect())) {
             if (player.isfacingright()) {
                 slime.faceRight();
-                slime.moveRight();
             } else{
                 slime.faceLeft();
-                slime.moveLeft();
+            }
+
+            if (player.isattacking()) {
+                slime.death();
+                count++;
             }
         }
+
+        if (slime.isdead()) {
+            slime.setdead(false);
+            slime.setxCoord((int) (Math.random()*player.getxCoord()+2000));
+        }
+
+        requestFocusInWindow();
     }
 
 

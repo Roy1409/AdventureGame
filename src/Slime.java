@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageFilter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,16 +16,18 @@ public class Slime {
     private int yCoord;
     private int score;
     private Animation animation;
+    private Animation death;
     private Animation idle;
     private Animation jump;
     private Animation attacking;
     private boolean y;
     private boolean jumping;
     private boolean attack;
+    private boolean dead;
 
 
     public Slime() {
-        facingRight = true;
+        facingRight = false;
         xCoord = 2000;
         yCoord = 925;
         score = 0;
@@ -45,8 +49,18 @@ public class Slime {
                 System.out.println(e.getMessage());
             }
         }
+        ArrayList<BufferedImage> q= new ArrayList<>();
 
-        ArrayList<BufferedImage> x = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            String filename = "src\\images\\sdead"+ i + ".png";
+            try {
+                q.add(ImageIO.read(new File(filename)));
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+    /*    ArrayList<BufferedImage> x = new ArrayList<>();*/
 
 /*
         for (int i = 1; i < 9; i++) {
@@ -78,6 +92,8 @@ public class Slime {
 */
 
 
+
+        death=new Animation(q,100);
         animation = new Animation(images, 100);
         /*  idle = new Animation(x, 100);*/
        /* jump= new Animation(jumps,100);
@@ -140,7 +156,7 @@ public class Slime {
 
     public void moveLeft() {
         if (xCoord - 3 >= 0) {
-            xCoord -= 2;
+            xCoord -= 4;
             if (yCoord==925) {
                 y=false;
                 jumping=false;
@@ -173,15 +189,9 @@ public class Slime {
     }
 
     public BufferedImage getPlayerImage() {
-        if (!y) {
-            return animation.getActiveFrame(); }
-        if (jumping) {
-            return jump.getActiveFrame();
-        }
-        if (attack){
-            return attacking.getActiveFrame();
-        }
-        return idle.getActiveFrame();
+        if (!dead) {
+        return animation.getActiveFrame();  }
+        return death.getActiveFrame();
     }
 
     public Rectangle playerRect() {
@@ -205,5 +215,16 @@ public class Slime {
 
     public void setxCoord(int x) {
        xCoord=x;
+    }
+
+    public void death() {
+        dead=true;
+    }
+
+    public boolean isdead() {
+        return dead;
+    }
+    public void setdead(boolean x) {
+        dead=x;
     }
 }
