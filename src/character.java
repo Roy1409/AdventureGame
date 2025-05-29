@@ -17,7 +17,7 @@ public class character {
     private Animation idle;
     private Animation jump;
     private Animation attacking;
-    private boolean y;
+    private boolean isIdle;
     private boolean jumping;
     private boolean attack;
 
@@ -27,13 +27,11 @@ public class character {
         xCoord = 50;
         yCoord = 900;
         score = 0;
-/*
         try {
-            right = ImageIO.read(new File("src\\images\\widle1.png"));
+            right = ImageIO.read(new File("src\\images\\idle1.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-*/
 
 
         ArrayList<BufferedImage> images = new ArrayList<>();
@@ -45,18 +43,25 @@ public class character {
                 System.out.println(e.getMessage());
             }
         }
+        ArrayList<BufferedImage> atk =new ArrayList<>();
+        for (int i=0; i<12; i++) {
+            String filename = "src\\images\\thrust"+ i + ".png";
+            try {
+                atk.add(ImageIO.read(new File(filename)));
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
-        ArrayList<BufferedImage> x = new ArrayList<>();
-
-/*
-        for (int i = 1; i < 9; i++) {
-            String filename = "src\\images\\widle_" + i + ".png";
+       ArrayList<BufferedImage> x = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            String filename = "src\\images\\idle" + i + ".png";
             try {
                 x.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-        }*/
+        }
         /*ArrayList<BufferedImage> jumps=new ArrayList<>();
         for (int i=1; i<4; i++) {
             String filename = "src\\images\\wj_up_"+ i + ".png";
@@ -66,22 +71,14 @@ public class character {
                 System.out.println(e.getMessage());
             }
         }
-        ArrayList<BufferedImage> attk=new ArrayList<>();
-        for (int i=1; i<28; i++) {
-            String filename = "src\\images\\w3_atk_"+ i + ".png";
-            try {
-                attk.add(ImageIO.read(new File(filename)));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-*/
+
+         */
 
 
         animation = new Animation(images, 100);
-      /*  idle = new Animation(x, 100);*/
-       /* jump= new Animation(jumps,100);
-        attacking=new Animation(attk,50);*/
+        attacking=new Animation(atk,50);
+        idle = new Animation(x, 100);
+       /* jump= new Animation(jumps,100);*/
     }
 
     public int getxCoord() {
@@ -132,7 +129,7 @@ public class character {
         if (xCoord + .25 <= 1500) {
             xCoord += 4;
             if (yCoord == 900) {
-                y = false;
+                isIdle = false;
                 jumping = false;
                 attack=false;
             }}}
@@ -142,7 +139,7 @@ public class character {
         if (xCoord - 3 >= 0) {
             xCoord -= 3;
             if (yCoord==900) {
-                y=false;
+                isIdle =false;
                 jumping=false;
                 attack=false;
             }
@@ -152,7 +149,7 @@ public class character {
     public void moveUp() {
         if (yCoord==900) {
             yCoord -= 100;
-            y=false;
+            isIdle =false;
             jumping=true;
             attack=false;
         }
@@ -162,7 +159,7 @@ public class character {
         if (yCoord + MOVE_AMT <= 900) {
             yCoord += MOVE_AMT;
             if (yCoord==900) {
-            y=false;
+            isIdle =false;
             jumping=false;
                 attack=false;
             }  }
@@ -173,8 +170,9 @@ public class character {
     }
 
     public BufferedImage getPlayerImage() {
-        if (!y) {
-            return animation.getActiveFrame(); }
+        if (!isIdle) {
+            return animation.getActiveFrame();
+        }
         if (jumping) {
             return jump.getActiveFrame();
         }
@@ -192,7 +190,7 @@ public class character {
     }
 
     public void idle() {
-        y=true;
+        isIdle =true;
     }
 
     public void setJumping(boolean x){
