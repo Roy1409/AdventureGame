@@ -11,6 +11,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage background;
     private Timer timer;
     private character player;
+    private Slime slime;
     private boolean[] pressedKeys;
     private BufferedImage b0;
     private BufferedImage b1;
@@ -23,6 +24,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         timer.start();
        x=0;
         player= new character();
+        slime=new Slime();
+        slime.faceLeft();
         pressedKeys = new boolean[128]; // 128 keys on keyboard, max keycode is 127
         addKeyListener(this);
         addMouseListener(this);
@@ -46,22 +49,22 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(b0,x,-220,null);
-        g.drawImage(b0,x+928,-220,null);
-        g.drawImage(b0,x+(928*2),-220,null);
-        g.drawImage(b0,x+(928*3),-220,null);
-        g.drawImage(b0,x+(928*4),-220,null);
-        g.drawImage(b0,x+(928*5),-220,null);
-        g.drawImage(b0,x+(928*6),-220,null);
-        g.drawImage(b0,x+(928*7),-220,null);
-        g.drawImage(b0,x+(928*8),-220,null);
-        g.drawImage(b0,x+(928*9),-220,null);
-        g.drawImage(b0,x+(928*10),-220,null);
-        g.drawImage(b0,x+(928*11),-220,null);
-        g.drawImage(b0,x+(928*12),-220,null);
-        g.drawImage(b0,x+(928*13),-220,null);
-        g.drawImage(b0,x+(928*14),-220,null);
-        g.drawImage(b0,x+(928*15),-220,null);
+        g.drawImage(b0,x,-475,null);
+        g.drawImage(b0,x+1856,-475,null);
+        g.drawImage(b0,x+(1856*2),-475,null);
+        g.drawImage(b0,x+(1856*3),-475,null);
+        g.drawImage(b0,x+(1856*4),-475,null);
+        g.drawImage(b0,x+(1856*5),-475,null);
+        g.drawImage(b0,x+(1856*6),-475,null);
+        g.drawImage(b0,x+(1856*7),-475,null);
+        g.drawImage(b0,x+(1856*8),-475,null);
+        g.drawImage(b0,x+(1856*9),-475,null);
+        g.drawImage(b0,x+(1856*10),-475,null);
+        g.drawImage(b0,x+(1856*11),-475,null);
+        g.drawImage(b0,x+(1856*12),-475,null);
+        g.drawImage(b0,x+(1856*13),-475,null);
+        g.drawImage(b0,x+(1856*14),-475,null);
+        g.drawImage(b0,x+(1856*15),-475,null);
 
 
 
@@ -73,9 +76,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
 
 
-
+        g.drawImage(slime.getPlayerImage(),slime.getxCoord(),slime.getyCoord(),slime.getWidth(),slime.getHeight(),null);
         g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
-
 
 
 
@@ -84,6 +86,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             player.faceLeft();
             player.moveLeft();
             x+=3;
+            slime.moveLeft();
+
 
         }
 
@@ -93,6 +97,12 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             player.faceRight();
             player.moveRight();
             x-=3;
+            if (slime.getxCoord()<player.getxCoord()) {
+                slime.moveRight();
+            } else {
+           slime.moveLeft();
+            }
+
         }
 
 
@@ -110,6 +120,16 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         if (pressedKeys[69]) {
             player.attack();
         }
+
+        if (slime.playerRect().intersects(player.playerRect())) {
+            if (player.isfacingright()) {
+                slime.faceRight();
+                slime.moveRight();
+            } else{
+                slime.faceLeft();
+                slime.moveLeft();
+            }
+        }
     }
 
 
@@ -118,7 +138,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     @Override
     public void actionPerformed(ActionEvent e) {
         if (player!=null) {
-        if (player.getyCoord()!=435) {
+        if (player.getyCoord()!=900) {
             player.fall();
         }else {
             player.setJumping(false);

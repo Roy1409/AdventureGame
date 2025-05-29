@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class character {
+public class Slime {
     private final int MOVE_AMT = 3;
     private BufferedImage right;
     private boolean facingRight;
@@ -22,10 +22,10 @@ public class character {
     private boolean attack;
 
 
-    public character() {
+    public Slime() {
         facingRight = true;
-        xCoord = 50;
-        yCoord = 900;
+        xCoord = 2000;
+        yCoord = 925;
         score = 0;
 /*
         try {
@@ -37,8 +37,8 @@ public class character {
 
 
         ArrayList<BufferedImage> images = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            String filename = "src\\images\\run"+ i + ".png";
+        for (int i = 0; i < 8; i++) {
+            String filename = "src\\images\\srun"+ i + ".png";
             try {
                 images.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
@@ -79,7 +79,7 @@ public class character {
 
 
         animation = new Animation(images, 100);
-      /*  idle = new Animation(x, 100);*/
+        /*  idle = new Animation(x, 100);*/
        /* jump= new Animation(jumps,100);
         attacking=new Animation(attk,50);*/
     }
@@ -131,7 +131,7 @@ public class character {
     public void moveRight() {
         if (xCoord + .25 <= 1500) {
             xCoord += 4;
-            if (yCoord == 900) {
+            if (yCoord == 925) {
                 y = false;
                 jumping = false;
                 attack=false;
@@ -140,17 +140,17 @@ public class character {
 
     public void moveLeft() {
         if (xCoord - 3 >= 0) {
-            xCoord -= 3;
-            if (yCoord==900) {
+            xCoord -= 2;
+            if (yCoord==925) {
                 y=false;
                 jumping=false;
                 attack=false;
             }
-    }}
+        }}
 
 
     public void moveUp() {
-        if (yCoord==900) {
+        if (yCoord==925) {
             yCoord -= 100;
             y=false;
             jumping=true;
@@ -159,11 +159,11 @@ public class character {
     }
 
     public void moveDown() {
-        if (yCoord + MOVE_AMT <= 900) {
+        if (yCoord + MOVE_AMT <= 925) {
             yCoord += MOVE_AMT;
-            if (yCoord==900) {
-            y=false;
-            jumping=false;
+            if (yCoord==435) {
+                y=false;
+                jumping=false;
                 attack=false;
             }  }
     }
@@ -203,8 +203,7 @@ public class character {
         yCoord++;
     }
 
-
-    public boolean isfacingright(){
-        return facingRight;
+    public void setxCoord(int x) {
+       xCoord=x;
     }
 }
