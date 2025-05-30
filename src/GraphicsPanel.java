@@ -53,6 +53,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }catch (IOException e) {
                 System.out.println(e.getMessage());
             }
+            }
 
 
     }
@@ -61,21 +62,21 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(b0,x,-475,null);
-        g.drawImage(b0,x+1856,-475,null);
-        g.drawImage(b0,x+(1856*2),-475,null);
-        g.drawImage(b0,x+(1856*3),-475,null);
-        g.drawImage(b0,x+(1856*4),-475,null);
-        g.drawImage(b0,x+(1856*5),-475,null);
-        g.drawImage(b0,x+(1856*6),-475,null);
-        g.drawImage(b0,x+(1856*7),-475,null);
-        g.drawImage(b0,x+(1856*8),-475,null);
-        g.drawImage(b0,x+(1856*9),-475,null);
-        g.drawImage(b0,x+(1856*10),-475,null);
-        g.drawImage(b0,x+(1856*11),-475,null);
-        g.drawImage(b0,x+(1856*12),-475,null);
-        g.drawImage(b0,x+(1856*13),-475,null);
-        g.drawImage(b0,x+(1856*14),-475,null);
-        g.drawImage(b0,x+(1856*15),-475,null);
+//        g.drawImage(b0,x+1856,-475,null);
+//        g.drawImage(b0,x+(1856*2),-475,null);
+//        g.drawImage(b0,x+(1856*3),-475,null);
+//        g.drawImage(b0,x+(1856*4),-475,null);
+//        g.drawImage(b0,x+(1856*5),-475,null);
+//        g.drawImage(b0,x+(1856*6),-475,null);
+//        g.drawImage(b0,x+(1856*7),-475,null);
+//        g.drawImage(b0,x+(1856*8),-475,null);
+//        g.drawImage(b0,x+(1856*9),-475,null);
+//        g.drawImage(b0,x+(1856*10),-475,null);
+//        g.drawImage(b0,x+(1856*11),-475,null);
+//        g.drawImage(b0,x+(1856*12),-475,null);
+//        g.drawImage(b0,x+(1856*13),-475,null);
+//        g.drawImage(b0,x+(1856*14),-475,null);
+//        g.drawImage(b0,x+(1856*15),-475,null);
         text.setText(count+" Gold");
 
         g.drawImage(hut,a,700,null);
@@ -119,6 +120,7 @@ if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69]
         if (pressedKeys[65]) {
             player.faceLeft();
             player.moveLeft();
+
             x+=3;
            witch.setxCoord(witch.getxCoord()+3);
             a+=3;
@@ -129,7 +131,8 @@ if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69]
         if (pressedKeys[68]) {
             player.faceRight();
             player.moveRight();
-            x-=3;
+            if (player.getxCoord() > 1500) {
+                x -= 3;
             a-=3;
             witch.setxCoord(witch.getxCoord()-3);
 

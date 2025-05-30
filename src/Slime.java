@@ -146,7 +146,7 @@ public class Slime {
 
     public void moveRight() {
         if (xCoord + .25 <= 1500) {
-            xCoord += 4;
+            xCoord += 2;
             if (yCoord == 925) {
                 y = false;
                 jumping = false;
@@ -156,7 +156,7 @@ public class Slime {
 
     public void moveLeft() {
         if (xCoord - 3 >= 0) {
-            xCoord -= 4;
+            xCoord -= 2;
             if (yCoord==925) {
                 y=false;
                 jumping=false;

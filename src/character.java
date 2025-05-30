@@ -76,7 +76,7 @@ public class character {
 
 
         animation = new Animation(images, 100);
-        attacking=new Animation(atk,50);
+        attacking=new Animation(atk,85);
         idle = new Animation(x, 100);
        /* jump= new Animation(jumps,100);*/
     }
@@ -167,6 +167,7 @@ public class character {
 
     public void attack() {
         attack=true;
+
     }
 
     public BufferedImage getPlayerImage() {
@@ -178,7 +179,10 @@ public class character {
         }*/
         if (attack){
             return attacking.getActiveFrame();
+
         }
+
+
         return idle.getActiveFrame();
 
     }
