@@ -24,7 +24,7 @@ public class Witch {
 
     public Witch() {
         facingRight = true;
-        xCoord = 50;
+        xCoord = 2350;
         yCoord = 855;
         score = 0;
         try {
@@ -36,7 +36,7 @@ public class Witch {
 
         ArrayList<BufferedImage> images = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            String filename = "src\\images\\witch"+ i + ".png";
+            String filename = "src\\images\\witch" + i + ".png";
             try {
                 images.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
@@ -114,42 +114,46 @@ public class Witch {
             if (yCoord == 900) {
                 isIdle = false;
                 jumping = false;
-                attack=false;
-            }}}
+                attack = false;
+            }
+        }
+    }
 
 
     public void moveLeft() {
         if (xCoord - 3 >= 0) {
             xCoord -= 3;
-            if (yCoord==900) {
-                isIdle =false;
-                jumping=false;
-                attack=false;
+            if (yCoord == 900) {
+                isIdle = false;
+                jumping = false;
+                attack = false;
             }
-        }}
+        }
+    }
 
 
     public void moveUp() {
-        if (yCoord==900) {
+        if (yCoord == 900) {
             yCoord -= 100;
-            isIdle =false;
-            jumping=true;
-            attack=false;
+            isIdle = false;
+            jumping = true;
+            attack = false;
         }
     }
 
     public void moveDown() {
         if (yCoord + MOVE_AMT <= 900) {
             yCoord += MOVE_AMT;
-            if (yCoord==900) {
-                isIdle =false;
-                jumping=false;
-                attack=false;
-            }  }
+            if (yCoord == 900) {
+                isIdle = false;
+                jumping = false;
+                attack = false;
+            }
+        }
     }
 
     public void attack() {
-        attack=true;
+        attack = true;
     }
 
     public BufferedImage getPlayerImage() {
@@ -159,7 +163,7 @@ public class Witch {
      /*   if (jumping) {
             return jump.getActiveFrame();
         }*/
-        if (attack){
+        if (attack) {
             return attacking.getActiveFrame();
         }
         return idle.getActiveFrame();
@@ -173,24 +177,12 @@ public class Witch {
         return rect;
     }
 
-    public void idle() {
-        isIdle =true;
+    public String talk() {
+        return "test";
     }
 
-    public void setJumping(boolean x){
-        jumping=x;
+    public void setxCoord(int x) {
+        xCoord=x;
     }
 
-    public void fall() {
-        yCoord++;
-    }
-
-    public boolean isattacking() {
-        return attack;
-    }
-
-
-    public boolean isfacingright(){
-        return facingRight;
-    }
 }

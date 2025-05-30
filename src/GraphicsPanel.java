@@ -27,7 +27,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
     public GraphicsPanel() {
         a=2250;
-        witchx=2350;
         text=new JTextField("0 Gold",10);
         count=0;
         timer = new Timer(2, this);
@@ -85,7 +84,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         g.drawImage(heart,25,50,null);
         g.drawImage(heart,100,50,null);
         g.drawImage(heart,175,50,null);
-        g.drawImage(witch.getPlayerImage(), witchx, witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
+        g.drawImage(witch.getPlayerImage(), witch.getxCoord(), witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
 
 
 
@@ -121,7 +120,7 @@ if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69]
             player.faceLeft();
             player.moveLeft();
             x+=3;
-            witchx+=3;
+           witch.setxCoord(witch.getxCoord()+3);
             a+=3;
         }
 
@@ -132,8 +131,9 @@ if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69]
             player.moveRight();
             x-=3;
             a-=3;
-            witchx-=3;
-            }
+            witch.setxCoord(witch.getxCoord()-3);
+
+        }
 
 
 
@@ -147,6 +147,12 @@ if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69]
         // player moves down (S)
         if (pressedKeys[83]) {
             player.moveDown();
+        }
+
+        if (pressedKeys[69]) {
+            if (witch.playerRect().intersects(player.playerRect())) {
+                System.out.println(witch.talk());
+            }
         }
 
 
