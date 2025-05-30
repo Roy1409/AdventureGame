@@ -128,8 +128,8 @@ public class character {
     public void moveRight() {
         if (xCoord + .25 <= 1500) {
             xCoord += 4;
+            isIdle = false;
             if (yCoord == 900) {
-                isIdle = false;
                 jumping = false;
                 attack=false;
             }}}

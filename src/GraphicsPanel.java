@@ -97,8 +97,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
 
 
-
-        player.idle();
         if(!slime.isdead()) {
             g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
         }
@@ -114,6 +112,10 @@ if (player.getxCoord()>slime.getxCoord()) {
             slime.faceLeft();
 
         }
+if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69] || !pressedKeys[83])
+        {
+    player.idle();
+}
 
         if (pressedKeys[65]) {
             player.faceLeft();
@@ -147,9 +149,7 @@ if (player.getxCoord()>slime.getxCoord()) {
             player.moveDown();
         }
 
-        if (pressedKeys[69]) {
-            player.attack();
-        }
+
 
         if (slime.playerRect().intersects(player.playerRect())) {
             if (player.isfacingright()) {
@@ -206,6 +206,7 @@ if (player.getxCoord()>slime.getxCoord()) {
         pressedKeys[key] = false;
     }
 
+
     // MouseListener interface methods
     @Override
     public void mouseClicked(MouseEvent e) { }
@@ -216,7 +217,11 @@ if (player.getxCoord()>slime.getxCoord()) {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            player.attack();
+        }
     }
+
 
     @Override
     public void mouseEntered(MouseEvent e) { } // unimplemented
