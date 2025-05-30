@@ -14,7 +14,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Slime slime;
     private boolean[] pressedKeys;
     private BufferedImage b0;
-    private BufferedImage b1;
+    private BufferedImage heart;
+
     private int x;
     private int count;
     private JTextField text;
@@ -41,7 +42,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         try{
 
                  b0= ImageIO.read(new File("src\\images\\Background.png"));
-                 b1=ImageIO.read(new File("src\\images\\layer_2.png"));
+                 heart = ImageIO.read(new File("src\\images\\heart.png"));
 
 
         }catch (IOException e) {
@@ -71,6 +72,11 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         g.drawImage(b0,x+(1856*14),-475,null);
         g.drawImage(b0,x+(1856*15),-475,null);
         text.setText(count+" Gold");
+
+        g.drawImage(heart,25,50,null);
+        g.drawImage(heart,100,50,null);
+        g.drawImage(heart,175,50,null);
+
 
 
 
