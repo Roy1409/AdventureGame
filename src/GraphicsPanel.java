@@ -14,21 +14,26 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Slime slime;
     private boolean[] pressedKeys;
     private BufferedImage b0;
+    private Witch witch;
     private BufferedImage hut;
     private BufferedImage heart;
-
+    private int a;
     private int x;
     private int count;
     private JTextField text;
+    private int witchx;
 
 
 
     public GraphicsPanel() {
+        a=2250;
+        witchx=2350;
         text=new JTextField("0 Gold",10);
         count=0;
         timer = new Timer(2, this);
         timer.start();
        x=0;
+       witch=new Witch();
         player= new character();
         slime=new Slime();
         slime.faceLeft();
@@ -74,12 +79,13 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         g.drawImage(b0,x+(1856*15),-475,null);
         text.setText(count+" Gold");
 
-        g.drawImage(hut,2250,700,null);
+        g.drawImage(hut,a,700,null);
 
 
         g.drawImage(heart,25,50,null);
         g.drawImage(heart,100,50,null);
         g.drawImage(heart,175,50,null);
+        g.drawImage(witch.getPlayerImage(), witchx, witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
 
 
 
@@ -113,6 +119,8 @@ if (player.getxCoord()>slime.getxCoord()) {
             player.faceLeft();
             player.moveLeft();
             x+=3;
+            witchx+=3;
+            a+=3;
         }
 
 
@@ -121,6 +129,8 @@ if (player.getxCoord()>slime.getxCoord()) {
             player.faceRight();
             player.moveRight();
             x-=3;
+            a-=3;
+            witchx-=3;
             }
 
 
