@@ -196,7 +196,9 @@ if (hp==3) {
                 slime.death();
                 count++;
             }
-            hp--;
+            if (!player.isattacking()) {
+                hp--;
+            }
         }
 
         if (slime.isdead()) {
