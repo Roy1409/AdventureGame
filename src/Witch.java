@@ -177,10 +177,6 @@ public class Witch {
         return rect;
     }
 
-    public String talk() {
-        return "test";
-    }
-
     public void setxCoord(int x) {
         xCoord=x;
     }

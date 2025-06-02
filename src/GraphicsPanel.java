@@ -20,12 +20,18 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private int a;
     private int x;
     private int count;
+    private BufferedImage talk1;
+    private BufferedImage talk3;
     private JTextField text;
     private int witchx;
+    private boolean talk;
+    private boolean talk2;
+    private int hp;
 
 
 
     public GraphicsPanel() {
+        hp=3;
         a=2250;
         text=new JTextField("0 Gold",10);
         count=0;
@@ -48,7 +54,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             hut= ImageIO.read(new File("src\\images\\hut.png"));
             b0= ImageIO.read(new File("src\\images\\Background.png"));
             heart = ImageIO.read(new File("src\\images\\heart.png"));
-
+            talk1= ImageIO.read(new File("src\\images\\talk1.png"));
+            talk3=ImageIO.read(new File("src\\images\\talk3.png"));
 
         }catch (IOException e) {
             System.out.println(e.getMessage());
@@ -62,29 +69,49 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 public void paintComponent(Graphics g) {
     super.paintComponent(g);
     g.drawImage(b0, x, -475, null);
-//        g.drawImage(b0,x+1856,-475,null);
-//        g.drawImage(b0,x+(1856*2),-475,null);
-//        g.drawImage(b0,x+(1856*3),-475,null);
-//        g.drawImage(b0,x+(1856*4),-475,null);
-//        g.drawImage(b0,x+(1856*5),-475,null);
-//        g.drawImage(b0,x+(1856*6),-475,null);
-//        g.drawImage(b0,x+(1856*7),-475,null);
-//        g.drawImage(b0,x+(1856*8),-475,null);
-//        g.drawImage(b0,x+(1856*9),-475,null);
-//        g.drawImage(b0,x+(1856*10),-475,null);
-//        g.drawImage(b0,x+(1856*11),-475,null);
-//        g.drawImage(b0,x+(1856*12),-475,null);
-//        g.drawImage(b0,x+(1856*13),-475,null);
-//        g.drawImage(b0,x+(1856*14),-475,null);
-//        g.drawImage(b0,x+(1856*15),-475,null);
+        g.drawImage(b0,x+1856,-475,null);
+        g.drawImage(b0,x+(1856*2),-475,null);
+        g.drawImage(b0,x+(1856*3),-475,null);
+        g.drawImage(b0,x+(1856*4),-475,null);
+        g.drawImage(b0,x+(1856*5),-475,null);
+        g.drawImage(b0,x+(1856*6),-475,null);
+        g.drawImage(b0,x+(1856*7),-475,null);
+        g.drawImage(b0,x+(1856*8),-475,null);
+        g.drawImage(b0,x+(1856*9),-475,null);
+        g.drawImage(b0,x+(1856*10),-475,null);
+        g.drawImage(b0,x+(1856*11),-475,null);
+        g.drawImage(b0,x+(1856*12),-475,null);
+        g.drawImage(b0,x+(1856*13),-475,null);
+        g.drawImage(b0,x+(1856*14),-475,null);
+        g.drawImage(b0,x+(1856*15),-475,null);
     text.setText(count + " Gold");
 
     g.drawImage(hut, a, 700, null);
+if (talk) {
+    g.drawImage(talk1,witch.getxCoord(),775,null);
+}
+if (talk2) {
+    g.drawImage(talk3,witch.getxCoord(),775,null);
 
-
+}
+if (hp==3) {
     g.drawImage(heart, 25, 50, null);
     g.drawImage(heart, 100, 50, null);
     g.drawImage(heart, 175, 50, null);
+}
+
+
+    if (hp==2) {
+        g.drawImage(heart, 25, 50, null);
+        g.drawImage(heart, 100, 50, null);
+
+     }
+    if (hp==1) {
+        g.drawImage(heart, 25, 50, null);
+    }
+
+
+
     g.drawImage(witch.getPlayerImage(), witch.getxCoord(), witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
 
 
@@ -126,7 +153,7 @@ public void paintComponent(Graphics g) {
             a -= 3;
             witch.setxCoord(witch.getxCoord() - 3);
 
-        }
+        } }
 
 
         // player moves up (W)
@@ -141,12 +168,24 @@ public void paintComponent(Graphics g) {
         }
 
         if (pressedKeys[69]) {
-            if (witch.playerRect().intersects(player.playerRect())) {
-                System.out.println(witch.talk());
+            if (player.playerRect().intersects(witch.playerRect())) {
+                talk=true;
             }
         }
 
+        if (talk && pressedKeys[66]) {
+            talk=false;
+            talk2=true;
+        }
 
+    if (pressedKeys[76]) {
+        hp--;
+    }
+
+    if (!player.playerRect().intersects(witch.playerRect())) {
+        talk=false;
+        talk2=false;
+    }
         if (slime.playerRect().intersects(player.playerRect())) {
             if (player.isfacingright()) {
                 slime.faceRight();
@@ -166,7 +205,8 @@ public void paintComponent(Graphics g) {
         }
 
         requestFocusInWindow();
-    }
+
+
 }
 
 
@@ -178,10 +218,8 @@ public void paintComponent(Graphics g) {
                 player.fall();
             }else {
                 player.setJumping(false);
-            }}
-
-
-
+            }
+        }
         repaint();
     }
 
