@@ -126,17 +126,16 @@ public class character {
     }
 
     public void moveRight() {
-        if (xCoord + .25 <= 1500) {
-            xCoord += 4;
+            xCoord += 3;
             isIdle = false;
             if (yCoord == 900) {
                 jumping = false;
                 attack=false;
-            }}}
+            }}
 
 
     public void moveLeft() {
-        if (xCoord - 3 >= 0) {
+        if (xCoord - 3 >= 100) {
             xCoord -= 3;
             if (yCoord==900) {
                 isIdle =false;
