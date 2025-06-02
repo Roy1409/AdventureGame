@@ -31,8 +31,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         count=0;
         timer = new Timer(2, this);
         timer.start();
-       x=0;
-       witch=new Witch();
+        x=0;
+        witch=new Witch();
         player= new character();
         slime=new Slime();
         slime.faceLeft();
@@ -45,23 +45,23 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         text.setLocation(0,50);
 
         try{
-                 hut= ImageIO.read(new File("src\\images\\hut.png"));
-                 b0= ImageIO.read(new File("src\\images\\Background.png"));
-                 heart = ImageIO.read(new File("src\\images\\heart.png"));
+            hut= ImageIO.read(new File("src\\images\\hut.png"));
+            b0= ImageIO.read(new File("src\\images\\Background.png"));
+            heart = ImageIO.read(new File("src\\images\\heart.png"));
 
 
         }catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            }
-
-
+            System.out.println(e.getMessage());
+        }
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(b0,x,-475,null);
+
+
+
+@Override
+public void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    g.drawImage(b0, x, -475, null);
 //        g.drawImage(b0,x+1856,-475,null);
 //        g.drawImage(b0,x+(1856*2),-475,null);
 //        g.drawImage(b0,x+(1856*3),-475,null);
@@ -77,68 +77,56 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 //        g.drawImage(b0,x+(1856*13),-475,null);
 //        g.drawImage(b0,x+(1856*14),-475,null);
 //        g.drawImage(b0,x+(1856*15),-475,null);
-        text.setText(count+" Gold");
+    text.setText(count + " Gold");
 
-        g.drawImage(hut,a,700,null);
-
-
-        g.drawImage(heart,25,50,null);
-        g.drawImage(heart,100,50,null);
-        g.drawImage(heart,175,50,null);
-        g.drawImage(witch.getPlayerImage(), witch.getxCoord(), witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
+    g.drawImage(hut, a, 700, null);
 
 
+    g.drawImage(heart, 25, 50, null);
+    g.drawImage(heart, 100, 50, null);
+    g.drawImage(heart, 175, 50, null);
+    g.drawImage(witch.getPlayerImage(), witch.getxCoord(), witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
 
 
+    if (!slime.isdead()) {
+        g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
+    }
+    g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
 
 
+    if (player.getxCoord() > slime.getxCoord()) {
+        slime.moveRight();
+        slime.faceRight();
+    }
+    if (player.getxCoord() < slime.getxCoord()) {
+        slime.moveLeft();
+        slime.faceLeft();
+
+    }
+    if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69] || !pressedKeys[83]) {
+        player.idle();
+    }
+
+    if (pressedKeys[65]) {
+        player.faceLeft();
+        player.moveLeft();
+
+        x += 3;
+        witch.setxCoord(witch.getxCoord() + 3);
+        a += 3;
+    }
 
 
-
-
-
-        if(!slime.isdead()) {
-            g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
-        }
-        g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
-
-
-if (player.getxCoord()>slime.getxCoord()) {
-    slime.moveRight();
-    slime.faceRight();
-}
-        if (player.getxCoord()<slime.getxCoord()) {
-            slime.moveLeft();
-            slime.faceLeft();
-
-        }
-if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69] || !pressedKeys[83])
-        {
-    player.idle();
-}
-
-        if (pressedKeys[65]) {
-            player.faceLeft();
-            player.moveLeft();
-
-            x+=3;
-           witch.setxCoord(witch.getxCoord()+3);
-            a+=3;
-        }
-
-
-        // player moves right (D)
-        if (pressedKeys[68]) {
-            player.faceRight();
-            player.moveRight();
-            if (player.getxCoord() > 1500) {
-                x -= 3;
-            a-=3;
-            witch.setxCoord(witch.getxCoord()-3);
+    // player moves right (D)
+    if (pressedKeys[68]) {
+        player.faceRight();
+        player.moveRight();
+        if (player.getxCoord() > 1500) {
+            x -= 3;
+            a -= 3;
+            witch.setxCoord(witch.getxCoord() - 3);
 
         }
-
-
 
 
         // player moves up (W)
@@ -159,11 +147,10 @@ if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69]
         }
 
 
-
         if (slime.playerRect().intersects(player.playerRect())) {
             if (player.isfacingright()) {
                 slime.faceRight();
-            } else{
+            } else {
                 slime.faceLeft();
             }
 
@@ -175,23 +162,23 @@ if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69]
 
         if (slime.isdead()) {
             slime.setdead(false);
-            slime.setxCoord((int) (Math.random()*player.getxCoord()+2000));
+            slime.setxCoord((int) (Math.random() * player.getxCoord() + 2000));
         }
 
         requestFocusInWindow();
     }
-
+}
 
 
     // ActionListener interface method
     @Override
     public void actionPerformed(ActionEvent e) {
         if (player!=null) {
-        if (player.getyCoord()!=900) {
-            player.fall();
-        }else {
-            player.setJumping(false);
-        }}
+            if (player.getyCoord()!=900) {
+                player.fall();
+            }else {
+                player.setJumping(false);
+            }}
 
 
 
@@ -239,3 +226,4 @@ if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69]
     public void mouseExited(MouseEvent e) { } // unimplemented
 
 }
+
