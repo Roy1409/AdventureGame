@@ -179,9 +179,7 @@ if (hp==3) {
             talk2=true;
         }
 
-    if (pressedKeys[76]) {
-        hp--;
-    }
+
 
     if (!player.playerRect().intersects(witch.playerRect())) {
         talk=false;
@@ -198,6 +196,7 @@ if (hp==3) {
                 slime.death();
                 count++;
             }
+            hp--;
         }
 
         if (slime.isdead()) {
