@@ -118,8 +118,9 @@ if (hp==3) {
     if (!slime.isdead()) {
         g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
     }
-    g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
-
+    if (hp>0) {
+        g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
+    }
 
     if (player.getxCoord() > slime.getxCoord()) {
         slime.moveRight();
