@@ -149,6 +149,7 @@ public class Slime {
             xCoord += 2;
             if (yCoord == 925) {
                 y = false;
+
                 jumping = false;
                 attack=false;
             }}}

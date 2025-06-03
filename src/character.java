@@ -18,10 +18,12 @@ public class character {
     private Animation jump;
     private Animation attacking;
     private Animation smashing;
+    public Animation hit;
     private boolean isIdle;
     private boolean jumping;
     private boolean attack;
     private boolean smash;
+    private boolean isHit;
 
 
     public character() {
@@ -34,7 +36,15 @@ public class character {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
+        ArrayList<BufferedImage> gotHit = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            String filename = "src\\images\\hit"+ i + ".png";
+            try {
+                gotHit.add(ImageIO.read(new File(filename)));
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
         ArrayList<BufferedImage> images = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
@@ -55,7 +65,7 @@ public class character {
             }
         }
         ArrayList<BufferedImage> atk2 =new ArrayList<>();
-        for (int i=0; i<12; i++) {
+        for (int i=0; i<17; i++) {
             String filename = "src\\images\\smash"+ i + ".png";
             try {
                 atk2.add(ImageIO.read(new File(filename)));
@@ -89,6 +99,7 @@ public class character {
         animation = new Animation(images, 100);
         attacking=new Animation(atk,85);
         idle = new Animation(x, 100);
+        hit = new Animation(gotHit, 150);
        /* jump= new Animation(jumps,100);*/
     }
 
@@ -137,7 +148,9 @@ public class character {
     }
 
     public void moveRight() {
+        if (xCoord <= 1700) {
             xCoord += 3;
+        }
             isIdle = false;
             if (yCoord == 900) {
                 jumping = false;
@@ -187,6 +200,9 @@ public class character {
 
         smash = true;
     }
+    public void hit(boolean bool){
+        isHit = bool;
+    }
 
     public BufferedImage getPlayerImage() {
         if (!isIdle) {
@@ -201,6 +217,9 @@ public class character {
         }
         if (smash){
             return smashing.getActiveFrame();
+        }
+        if (isHit){
+            return hit.getActiveFrame();
         }
 
 
