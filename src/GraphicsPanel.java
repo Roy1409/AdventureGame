@@ -138,7 +138,6 @@ if (hp==3) {
     if (pressedKeys[65]) {
         player.faceLeft();
         player.moveLeft();
-
         x += 3;
         witch.setxCoord(witch.getxCoord() + 3);
         a += 3;
@@ -149,12 +148,11 @@ if (hp==3) {
     if (pressedKeys[68]) {
         player.faceRight();
         player.moveRight();
-        if (player.getxCoord() > 1500) {
             x -= 3;
             a -= 3;
             witch.setxCoord(witch.getxCoord() - 3);
 
-        } }
+        }
 
 
         // player moves up (W)
@@ -192,11 +190,11 @@ if (hp==3) {
                 slime.faceLeft();
             }
 
-            if (player.isattacking()) {
+            if (player.isattacking() || player.isSmash()) {
                 slime.death();
                 count++;
             }
-            if (!player.isattacking()) {
+            if (!player.isattacking() && !player.isSmash()) {
                 hp--;
             }
         }
@@ -255,6 +253,9 @@ if (hp==3) {
     public void mouseReleased(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             player.attack();
+        }
+        if (e.getButton() == MouseEvent.BUTTON3){
+            player.smash();
         }
     }
 

@@ -17,9 +17,11 @@ public class character {
     private Animation idle;
     private Animation jump;
     private Animation attacking;
+    private Animation smashing;
     private boolean isIdle;
     private boolean jumping;
     private boolean attack;
+    private boolean smash;
 
 
     public character() {
@@ -52,6 +54,15 @@ public class character {
                 System.out.println(e.getMessage());
             }
         }
+        ArrayList<BufferedImage> atk2 =new ArrayList<>();
+        for (int i=0; i<12; i++) {
+            String filename = "src\\images\\smash"+ i + ".png";
+            try {
+                atk2.add(ImageIO.read(new File(filename)));
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
        ArrayList<BufferedImage> x = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
@@ -74,7 +85,7 @@ public class character {
 
          */
 
-
+        smashing = new Animation(atk2, 85);
         animation = new Animation(images, 100);
         attacking=new Animation(atk,85);
         idle = new Animation(x, 100);
@@ -131,6 +142,7 @@ public class character {
             if (yCoord == 900) {
                 jumping = false;
                 attack=false;
+                smash=false;
             }}
 
 
@@ -141,6 +153,7 @@ public class character {
                 isIdle =false;
                 jumping=false;
                 attack=false;
+                smash = false;
             }
     }}
 
@@ -151,6 +164,8 @@ public class character {
             isIdle =false;
             jumping=true;
             attack=false;
+             smash    =false;
+
         }
     }
 
@@ -161,12 +176,16 @@ public class character {
             isIdle =false;
             jumping=false;
                 attack=false;
+                smash = false;
             }  }
     }
 
     public void attack() {
         attack=true;
+    }
+    public void smash(){
 
+        smash = true;
     }
 
     public BufferedImage getPlayerImage() {
@@ -179,6 +198,9 @@ public class character {
         if (attack){
             return attacking.getActiveFrame();
 
+        }
+        if (smash){
+            return smashing.getActiveFrame();
         }
 
 
@@ -207,6 +229,9 @@ public class character {
 
     public boolean isattacking() {
         return attack;
+    }
+    public boolean isSmash(){
+        return smash;
     }
 
 
