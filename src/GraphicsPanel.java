@@ -27,20 +27,29 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private boolean talk;
     private boolean talk2;
     private int hp;
+    private int healthpot;
+    private boolean show;
+    private BufferedImage p;
+    private int count1;
+    private boolean talk4;
+    private BufferedImage talk5;
 
 
 
     public GraphicsPanel() {
+        healthpot=0;
         hp=3;
+        count1=0;
         a=2250;
         text=new JTextField("0 Gold",10);
-        count=0;
+        count=1000000;
         timer = new Timer(2, this);
         timer.start();
         x=0;
         witch=new Witch();
         player= new character();
         slime=new Slime();
+
         slime.faceLeft();
         pressedKeys = new boolean[128]; // 128 keys on keyboard, max keycode is 127
         addKeyListener(this);
@@ -48,9 +57,11 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         setFocusable(true); // this line of code + one below makes this panel active for keylistener events
         requestFocusInWindow(); // see comment above
         add(text);
-        text.setLocation(0,50);
+        text.setLocation(25,0);
 
         try{
+            talk5=ImageIO.read(new File("src\\images\\talk5.png"));
+            p=ImageIO.read(new File("src\\images\\healthpot.png"));
             hut= ImageIO.read(new File("src\\images\\hut.png"));
             b0= ImageIO.read(new File("src\\images\\Background.png"));
             heart = ImageIO.read(new File("src\\images\\heart.png"));
@@ -85,6 +96,18 @@ public void paintComponent(Graphics g) {
         g.drawImage(b0,x+(1856*14),-475,null);
         g.drawImage(b0,x+(1856*15),-475,null);
     text.setText(count + " Gold");
+    if (healthpot==1) {
+    g.drawImage(p,0,125,null); }
+    if (healthpot==2) {
+        g.drawImage(p,0,125,null);
+        g.drawImage(p,75,125,null); }
+    if (healthpot>=3) {
+        g.drawImage(p,0,125,null);
+        g.drawImage(p,75,125,null);
+        g.drawImage(p,150,125,null);
+    }
+
+
 
     g.drawImage(hut, a, 700, null);
 if (talk) {
@@ -94,11 +117,15 @@ if (talk2) {
     g.drawImage(talk3,witch.getxCoord(),775,null);
 
 }
+if (talk4) {
+    g.drawImage(talk5,witch.getxCoord(),775,null);
+}
 if (hp==3) {
     g.drawImage(heart, 25, 50, null);
     g.drawImage(heart, 100, 50, null);
     g.drawImage(heart, 175, 50, null);
 }
+
 
 
     if (hp==2) {
@@ -138,9 +165,14 @@ if (hp==3) {
     if (pressedKeys[65]) {
         player.faceLeft();
         player.moveLeft();
+
         x += 3;
         witch.setxCoord(witch.getxCoord() + 3);
         a += 3;
+    }
+
+    if (player.isfacingright() && !slime.isfacingright()) {
+        slime.moveLeft();
     }
 
 
@@ -154,11 +186,21 @@ if (hp==3) {
 
         }
 
-
+        if (talk2 && pressedKeys[49] && count>=15) {
+            if (!talk4) {
+            healthpot++;
+            count-=15;
+            show=true;
+            count1=0;
+            talk2=false;
+            talk4=true;
+        }  }
         // player moves up (W)
         if (pressedKeys[87]) {
             player.moveUp();
         }
+
+
 
 
         // player moves down (S)
@@ -169,19 +211,23 @@ if (hp==3) {
         if (pressedKeys[69]) {
             if (player.playerRect().intersects(witch.playerRect())) {
                 talk=true;
+                talk4=false;
             }
         }
 
         if (talk && pressedKeys[66]) {
             talk=false;
             talk2=true;
+            talk4=false;
         }
 
 
 
     if (!player.playerRect().intersects(witch.playerRect())) {
+        count1=0;
         talk=false;
         talk2=false;
+        talk4=false;
     }
         if (slime.playerRect().intersects(player.playerRect())) {
             if (player.isfacingright()) {
@@ -194,8 +240,9 @@ if (hp==3) {
                 slime.death();
                 count++;
             }
+
             if (!player.isattacking() && !player.isSmash()) {
-                hp--;
+                hp=2;
             }
         }
 
@@ -203,7 +250,12 @@ if (hp==3) {
             slime.setdead(false);
             slime.setxCoord((int) (Math.random() * player.getxCoord() + 2000));
         }
-
+    //PLAYER CLICKS U
+    if (pressedKeys[85] && healthpot>=1 && hp<3) {
+        healthpot--;
+        hp++;
+        repaint();
+    }
         requestFocusInWindow();
 
 

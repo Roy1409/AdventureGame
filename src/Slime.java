@@ -145,7 +145,7 @@ public class Slime {
     }
 
     public void moveRight() {
-        if (xCoord + .25 <= 1500) {
+        if (xCoord + 3 <= 2000) {
             xCoord += 2;
             if (yCoord == 925) {
                 y = false;
@@ -226,5 +226,9 @@ public class Slime {
     }
     public void setdead(boolean x) {
         dead=x;
+    }
+
+    public boolean isfacingright(){
+        return facingRight;
     }
 }
