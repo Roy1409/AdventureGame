@@ -244,17 +244,9 @@ if (hp==3) {
             talk2=false;
             talk4=true;
         }  }
-        // player moves up (W)
-        if (pressedKeys[87]) {
-            player.moveUp();
-        }
 
 
 
-        // player moves down (S)
-        if (pressedKeys[83]) {
-            player.moveDown();
-        }
 if (!bossroom) {
         if (pressedKeys[69]) {
             if (player.playerRect().intersects(witch.playerRect())) {
