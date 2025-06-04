@@ -136,7 +136,7 @@ if (!bossroom) {
     if (healthpot==2) {
         g.drawImage(pot,0,125,null);
         g.drawImage(pot,75,125,null); }
-    if (healthpot==3) {
+    if (healthpot>=3) {
         g.drawImage(pot,0,125,null);
         g.drawImage(pot,75,125,null);
         g.drawImage(pot,150,125,null);
@@ -227,12 +227,17 @@ if (hp==3) {
 
         if (talk2 && pressedKeys[49] && count>=15) {
             if (!talk4) {
+
             healthpot++;
-            count-=15;
+
+
+
+                count-=15;
             show=true;
             count1=0;
             talk2=false;
             talk4=true;
+
         }  }
 
     if (talk2 && pressedKeys[50] && count>=20) {
@@ -291,8 +296,8 @@ if (!bossroom) {
         }
     //PLAYER CLICKS U
     if (pressedKeys[85] && healthpot>=1 && hp<3) {
-        if (!(healthpot==3)) {
-        healthpot--;}
+
+        healthpot--;
         hp++;
         repaint();
     }
@@ -350,6 +355,8 @@ if (e.getSource()==timer3) {
         }
 
     }}
+
+
         repaint();}
 
     // KeyListener interface methods
