@@ -75,7 +75,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         text.setLocation(25,0);
 
         try{
-            b1=ImageIO.read(new File("src\\images\\b1.png"));
+            b1=ImageIO.read(new File("src\\images\\b1.jpg"));
             word2=ImageIO.read(new File("src\\images\\word2.png"));
             talk5=ImageIO.read(new File("src\\images\\talk5.png"));
             pot=ImageIO.read(new File("src\\images\\healthpot.png"));
@@ -121,10 +121,10 @@ if (!bossroom) {
         g.drawImage(b0, bckgX +(1856*15),-475,null);
         g.drawImage(sign,signx-100,925,null);
         g.drawImage(sign,signx2-100,925,null); } else{
-    g.drawImage(b1, bckgX-1913, -0, null);
+    g.drawImage(b1, bckgX-2051, -0, null);
 
     g.drawImage(b1,bckgX,0,null);
-    g.drawImage(b1, bckgX +(1913*2),-0,null);
+    g.drawImage(b1, bckgX +(2051*2),-0,null);
 
         }
     text.setText(count + " Gold");
