@@ -44,7 +44,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage word2;
     private boolean bossroom;
     private BufferedImage b1;
-
+    private boolean teleport;
+    private Timer timer3;
 
     public GraphicsPanel() {
         bossroom=false;
@@ -60,6 +61,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         timer2=new Timer(2500,this);
         timer2.start();
         timer.start();
+        timer3= new Timer(500,this);
+        timer3.start();
         bckgX =0;
         witch=new Witch();
         player= new character();
@@ -133,7 +136,7 @@ if (!bossroom) {
     if (healthpot==2) {
         g.drawImage(pot,0,125,null);
         g.drawImage(pot,75,125,null); }
-    if (healthpot>=3) {
+    if (healthpot==3) {
         g.drawImage(pot,0,125,null);
         g.drawImage(pot,75,125,null);
         g.drawImage(pot,150,125,null);
@@ -247,17 +250,18 @@ if (hp==3) {
         }
 
 
+
         // player moves down (S)
         if (pressedKeys[83]) {
             player.moveDown();
         }
-
+if (!bossroom) {
         if (pressedKeys[69]) {
             if (player.playerRect().intersects(witch.playerRect())) {
                 talk=true;
                 talk4=false;
             }
-        }
+        } }
 
         if (talk && pressedKeys[66]) {
             talk=false;
@@ -295,7 +299,8 @@ if (hp==3) {
         }
     //PLAYER CLICKS U
     if (pressedKeys[85] && healthpot>=1 && hp<3) {
-        healthpot--;
+        if (!(healthpot==3)) {
+        healthpot--;}
         hp++;
         repaint();
     }
@@ -344,8 +349,16 @@ if (hp==3) {
             }else {
                 player.hit(false);
         }}
-        repaint();
-    }
+
+if (e.getSource()==timer3) {
+        if (pressedKeys[81]) {
+            teleport=true;
+            if (player.isfacingright()) {
+                player.setxCoord(player.getxCoord()+100);
+        }
+
+    }}
+        repaint();}
 
     // KeyListener interface methods
     @Override
