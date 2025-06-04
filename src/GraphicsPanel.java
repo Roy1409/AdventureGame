@@ -12,6 +12,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Timer timer;
     private character player;
     private Slime slime;
+    private Boss boss;
     private boolean[] pressedKeys;
     private BufferedImage b0;
     private Witch witch;
@@ -67,7 +68,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         witch=new Witch();
         player= new character();
         slime=new Slime();
-
+        boss = new Boss();
         slime.faceLeft();
         pressedKeys = new boolean[128]; // 128 keys on keyboard, max keycode is 127
         addKeyListener(this);
@@ -123,7 +124,9 @@ if (!bossroom) {
         g.drawImage(b0, bckgX +(1856*14),-475,null);
         g.drawImage(b0, bckgX +(1856*15),-475,null);
         g.drawImage(sign,signx-100,925,null);
-        g.drawImage(sign,signx2-100,925,null); } else{
+        g.drawImage(sign,signx2-100,925,null); }
+else{
+
     g.drawImage(b1, bckgX-2051, -0, null);
 
     g.drawImage(b1,bckgX,0,null);
@@ -141,7 +144,9 @@ if (!bossroom) {
         g.drawImage(pot,75,125,null);
         g.drawImage(pot,150,125,null);
     }
-
+    if (bossroom){
+        g.drawImage(boss.getPlayerImage(), boss.getxCoord(), boss.getyCoord(), boss.getWidth(), boss.getHeight(), null);
+    }
 
     if (!bossroom) {
         g.drawImage(hut, a, 700, null);
@@ -209,6 +214,9 @@ if (hp==3) {
 
     if (player.isfacingright() && !slime.isfacingright()) {
         slime.moveLeft();
+    }
+    if (player.isfacingright() && !boss.isfacingright()) {
+        boss.moveLeft();
     }
 
 
