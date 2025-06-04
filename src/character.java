@@ -26,6 +26,7 @@ public class character {
     private boolean isHit;
 
 
+
     public character() {
         facingRight = true;
         xCoord = 50;
@@ -232,6 +233,10 @@ public class character {
         int imageWidth = getPlayerImage().getWidth();
         Rectangle rect = new Rectangle(xCoord, yCoord, imageWidth, imageHeight);
         return rect;
+    }
+
+    public void setxCoord(int x ) {
+        xCoord=x;
     }
 
     public void idle() {

@@ -29,14 +29,27 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private int hp;
     private int healthpot;
     private boolean show;
-    private BufferedImage p;
+    private BufferedImage pot;
     private int count1;
     private boolean talk4;
     private BufferedImage talk5;
-
+    private boolean moveunlocked;
+    private Timer timer2;
+    private BufferedImage sign;
+    private int signx;
+    private Rectangle rect;
+    private BufferedImage word;
+    private int signx2;
+    private Rectangle rect2;
+    private BufferedImage word2;
+    private boolean bossroom;
+    private BufferedImage b1;
 
 
     public GraphicsPanel() {
+        bossroom=false;
+        signx2=3000;
+        signx=125;
         healthpot=0;
         hp=3;
         count1=0;
@@ -44,6 +57,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         text=new JTextField("0 Gold",10);
         count=1000000;
         timer = new Timer(2, this);
+        timer2=new Timer(2500,this);
+        timer2.start();
         timer.start();
         bckgX =0;
         witch=new Witch();
@@ -60,13 +75,18 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         text.setLocation(25,0);
 
         try{
+            b1=ImageIO.read(new File("src\\images\\b1.png"));
+            word2=ImageIO.read(new File("src\\images\\word2.png"));
             talk5=ImageIO.read(new File("src\\images\\talk5.png"));
-            p=ImageIO.read(new File("src\\images\\healthpot.png"));
+            pot=ImageIO.read(new File("src\\images\\healthpot.png"));
             hut= ImageIO.read(new File("src\\images\\hut.png"));
             b0= ImageIO.read(new File("src\\images\\Background.png"));
             heart = ImageIO.read(new File("src\\images\\heart.png"));
             talk1= ImageIO.read(new File("src\\images\\talk1.png"));
             talk3=ImageIO.read(new File("src\\images\\talk3.png"));
+            sign=ImageIO.read(new File("src\\images\\sign.png"));
+            word=ImageIO.read(new File("src\\images\\word.png"));
+
 
         }catch (IOException e) {
             System.out.println(e.getMessage());
@@ -79,6 +99,10 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 @Override
 public void paintComponent(Graphics g) {
     super.paintComponent(g);
+     rect = new Rectangle(signx, 925, 80, 80);
+    rect2 = new Rectangle(signx2, 925, 80, 80);
+if (!bossroom) {
+    g.drawImage(b0, bckgX-1856, -475, null);
     g.drawImage(b0, bckgX, -475, null);
         g.drawImage(b0, bckgX +1856,-475,null);
         g.drawImage(b0, bckgX +(1856*2),-475,null);
@@ -95,21 +119,31 @@ public void paintComponent(Graphics g) {
         g.drawImage(b0, bckgX +(1856*13),-475,null);
         g.drawImage(b0, bckgX +(1856*14),-475,null);
         g.drawImage(b0, bckgX +(1856*15),-475,null);
+        g.drawImage(sign,signx-100,925,null);
+        g.drawImage(sign,signx2-100,925,null); } else{
+    g.drawImage(b1, bckgX-1913, -0, null);
+
+    g.drawImage(b1,bckgX,0,null);
+    g.drawImage(b1, bckgX +(1913*2),-0,null);
+
+        }
     text.setText(count + " Gold");
     if (healthpot==1) {
-    g.drawImage(p,0,125,null); }
+    g.drawImage(pot,0,125,null); }
     if (healthpot==2) {
-        g.drawImage(p,0,125,null);
-        g.drawImage(p,75,125,null); }
+        g.drawImage(pot,0,125,null);
+        g.drawImage(pot,75,125,null); }
     if (healthpot>=3) {
-        g.drawImage(p,0,125,null);
-        g.drawImage(p,75,125,null);
-        g.drawImage(p,150,125,null);
+        g.drawImage(pot,0,125,null);
+        g.drawImage(pot,75,125,null);
+        g.drawImage(pot,150,125,null);
     }
 
 
-
-    g.drawImage(hut, a, 700, null);
+    if (!bossroom) {
+        g.drawImage(hut, a, 700, null);
+        g.drawImage(witch.getPlayerImage(), witch.getxCoord(), witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
+    }
 if (talk) {
     g.drawImage(talk1,witch.getxCoord(),775,null);
 }
@@ -139,12 +173,10 @@ if (hp==3) {
 
 
 
-    g.drawImage(witch.getPlayerImage(), witch.getxCoord(), witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
-
-
     if (!slime.isdead()) {
+        if (!bossroom) {
         g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
-    }
+    }}
     if (hp>0) {
         g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
     }
@@ -168,6 +200,8 @@ if (hp==3) {
         bckgX += 3;
         witch.setxCoord(witch.getxCoord() + 3);
         a += 3;
+        signx+=3;
+        signx2+=3;
     }
 
     if (player.isfacingright() && !slime.isfacingright()) {
@@ -181,6 +215,9 @@ if (hp==3) {
         player.moveRight();
             bckgX -= 3;
             a -= 3;
+            signx-=3;
+            signx2-=3;
+
             witch.setxCoord(witch.getxCoord() - 3);
 
         }
@@ -188,6 +225,16 @@ if (hp==3) {
         if (talk2 && pressedKeys[49] && count>=15) {
             if (!talk4) {
             healthpot++;
+            count-=15;
+            show=true;
+            count1=0;
+            talk2=false;
+            talk4=true;
+        }  }
+
+    if (talk2 && pressedKeys[50] && count>=20) {
+        if (!talk4) {
+            moveunlocked=true;
             count-=15;
             show=true;
             count1=0;
@@ -220,6 +267,8 @@ if (hp==3) {
 
 
 
+
+
     if (!player.playerRect().intersects(witch.playerRect())) {
         count1=0;
         talk=false;
@@ -238,12 +287,6 @@ if (hp==3) {
                 count++;
             }
 
-            if (!player.isattacking() && !player.isSmash()) {
-                player.hit(true);
-                hp=2;
-            } else {
-                player.hit(false);
-            }
         }
 
         if (slime.isdead()) {
@@ -255,6 +298,22 @@ if (hp==3) {
         healthpot--;
         hp++;
         repaint();
+    }
+
+    if (player.playerRect().intersects(rect)) {
+        if (!bossroom)  {
+        g.drawImage(word,signx-175,800,null); }
+    }
+    if (player.playerRect().intersects(rect2)) {
+        if (!bossroom){
+        g.drawImage(word2,signx2-200,800,null); }
+
+        if (pressedKeys[69]) {
+            bossroom=true;
+            slime.setxCoord(99999);
+            player.setxCoord(50);
+            bckgX=0;
+        }
     }
         requestFocusInWindow();
 
@@ -272,6 +331,19 @@ if (hp==3) {
                 player.setJumping(false);
             }
         }
+
+        if (e.getSource()==timer2) {
+            if (slime.playerRect().intersects(player.playerRect())) {
+
+        if (!player.isattacking() && !player.isSmash()) {
+
+            player.hit(true);
+            hp--;
+
+        }
+            }else {
+                player.hit(false);
+        }}
         repaint();
     }
 
@@ -306,9 +378,10 @@ if (hp==3) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             player.attack();
         }
+        if (moveunlocked) {
         if (e.getButton() == MouseEvent.BUTTON3){
             player.smash();
-        }
+        } }
     }
 
 
