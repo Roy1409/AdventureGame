@@ -47,8 +47,13 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage b1;
     private boolean teleport;
     private Timer timer3;
+    private Timer attackAnimationTimer;
+    private Timer smashAnimationTimer;
+    private boolean animationPlaying;
+
 
     public GraphicsPanel() {
+        animationPlaying = false;
         bossroom=false;
         signx2=3000;
         signx=125;
@@ -58,6 +63,10 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         a=2250;
         text=new JTextField("0 Gold",10);
         count=1000000;
+        attackAnimationTimer = new Timer(1105, this); // delete this
+        attackAnimationTimer.setRepeats(false);
+        smashAnimationTimer = new Timer(1445, this); // edit this
+        smashAnimationTimer.setRepeats(false);
         timer = new Timer(2, this);
         timer2=new Timer(2500,this);
         timer2.start();
@@ -364,8 +373,20 @@ if (e.getSource()==timer3) {
 
     }}
 
-
-        repaint();}
+        if (e.getSource() == attackAnimationTimer) {
+            player.setAttacking(false);
+            player.idle();
+            attackAnimationTimer.stop();
+            animationPlaying = false;
+        }
+        if (e.getSource() == smashAnimationTimer) {
+            player.setSmash(false);
+            player.idle();
+            smashAnimationTimer.stop();
+            animationPlaying = false;
+        }
+        repaint();
+    }
 
     // KeyListener interface methods
     @Override
@@ -395,13 +416,20 @@ if (e.getSource()==timer3) {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            player.attack();
+        if (!animationPlaying) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                player.attack();
+                attackAnimationTimer.start();
+                animationPlaying = true;
+            }
+       if (moveunlocked) {
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                player.smash();
+                smashAnimationTimer.start();
+                animationPlaying = true;
+            }
         }
-        if (moveunlocked) {
-        if (e.getButton() == MouseEvent.BUTTON3){
-            player.smash();
-        } }
+      }
     }
 
 

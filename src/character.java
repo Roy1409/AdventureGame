@@ -17,13 +17,16 @@ public class character {
     private Animation idle;
     private Animation jump;
     private Animation attacking;
+    private int attackFrame = 13;
     private Animation smashing;
+    private int smashFrame = 17;
     public Animation hit;
     private boolean isIdle;
     private boolean jumping;
     private boolean attack;
     private boolean smash;
     private boolean isHit;
+
 
 
 
@@ -58,6 +61,9 @@ public class character {
         }
         ArrayList<BufferedImage> atk =new ArrayList<>();
         for (int i=0; i<12; i++) {
+            if (i >= 11){
+                attack = false;
+            }
             String filename = "src\\images\\thrust"+ i + ".png";
             try {
                 atk.add(ImageIO.read(new File(filename)));
@@ -178,14 +184,14 @@ public class character {
             isIdle =false;
             jumping=true;
             attack=false;
-             smash    =false;
+             smash  =false;
 
         }
     }
 
     public void moveDown() {
         if (yCoord + MOVE_AMT <= 900) {
-            yCoord += MOVE_AMT;
+           yCoord += MOVE_AMT;
             if (yCoord==900) {
             isIdle =false;
             jumping=false;
@@ -195,11 +201,14 @@ public class character {
     }
 
     public void attack() {
-        attack=true;
+        if (!isattacking()) {
+            attack = true;
+        }
     }
     public void smash(){
-
-        smash = true;
+        if (!isSmash()) {
+            smash = true;
+        }
     }
     public void hit(boolean bool){
         isHit = bool;
@@ -261,5 +270,13 @@ public class character {
 
     public boolean isfacingright(){
         return facingRight;
+    }
+
+    public void setAttacking(boolean x) {
+        attack = x;
+    }
+
+    public void setSmash(boolean x) {
+        smash = x;
     }
 }
