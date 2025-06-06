@@ -368,14 +368,14 @@ if (!bossroom) {
                 } else{
             x=(int) (Math.random()*101)+1;
             count-=5;
-                if (x>80) {
+                if (x>90) {
                     count+=25;
                     try{
     word3=ImageIO.read(new File("src\\images\\win.png"));
 }catch (IOException e) {
     System.out.println(e.getMessage());
 }
-                } else if (x>50) {
+                } else if (x>70) {
                     count+=5;
                     try{
     word3=ImageIO.read(new File("src\\images\\draw.png"));
@@ -406,6 +406,7 @@ DO=false;
             bossroom=true;
             slime.setxCoord(99999);
             player.setxCoord(50);
+            boss.setxCoord(1000);
             bckgX=0;
         }
     }
