@@ -66,7 +66,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
     public GraphicsPanel() {
         animationPlaying = false;
-        bossroom=true;
+        bossroom=false; //edit
         slotx=1850;
         signx2=3000;
         signx=125;
