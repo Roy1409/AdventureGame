@@ -72,7 +72,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         signx=125;
         healthpot=0;
         hp=3;
-        count1=0;
+        count1=100;
         a=2250;
         text=new JTextField("0 Gold",10);
         attackAnimationTimer = new Timer(1105, this); // delete this
