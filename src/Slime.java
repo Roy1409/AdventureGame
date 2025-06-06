@@ -28,7 +28,7 @@ public class Slime {
 
     public Slime() {
         facingRight = false;
-        xCoord = 2000;
+        xCoord = 800;
         yCoord = 925;
         score = 0;
 /*
@@ -101,11 +101,7 @@ public class Slime {
     }
 
     public int getxCoord() {
-        if (facingRight) {
             return xCoord;
-        } else {
-            return (xCoord + (getPlayerImage().getWidth()));
-        }
     }
 
     public int getyCoord() {
@@ -224,9 +220,6 @@ public class Slime {
 
     public boolean isdead() {
         return dead;
-    }
-    public void setdead(boolean x) {
-        dead=x;
     }
 
     public boolean isfacingright(){

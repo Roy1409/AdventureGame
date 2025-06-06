@@ -18,13 +18,12 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Witch witch;
     private BufferedImage hut;
     private BufferedImage heart;
-    private int a;
+    private int witchX;
     private int bckgX;
     private int count;
     private BufferedImage talk1;
     private BufferedImage talk3;
     private JTextField text;
-    private int witchx;
     private boolean talk;
     private boolean talk2;
     private int hp;
@@ -74,8 +73,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         signx=125;
         healthpot=0;
         hp=3;
-        count1=100;
-        a=2250;
+        count1=0;
+        witchX=2250;
         text=new JTextField("0 Gold",10);
         attackAnimationTimer = new Timer(1105, this); // delete this
         attackAnimationTimer.setRepeats(false);
@@ -176,7 +175,7 @@ else{
     }
 
     if (!bossroom) {
-        g.drawImage(hut, a, 700, null);
+        g.drawImage(hut, witchX, 700, null);
         g.drawImage(witch.getPlayerImage(), witch.getxCoord(), witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
     }
 if (talk) {
@@ -215,15 +214,16 @@ if (hp==3) {
     if (hp>0) {
         g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), player.getWidth(), player.getHeight(), null);
     }
+    if (Math.abs(player.getxCoord()-slime.getxCoord())< 700)  {
+        if (player.getxCoord()-50> slime.getxCoord()) {
+            slime.moveRight();
+            slime.faceRight();
+        }
+        if (player.getxCoord()< boss.getxCoord()) {
+            boss.moveLeft();
+            boss.faceRight();
 
-    if (player.getxCoord() > slime.getxCoord()) {
-        slime.moveRight();
-        slime.faceRight();
-    }
-    if (player.getxCoord() < slime.getxCoord()) {
-        slime.moveLeft();
-        slime.faceLeft();
-
+        }
     }
 
 if (!player.isfacingright() && !boss.isfacingright()) {
@@ -241,20 +241,15 @@ if (Math.abs(player.getxCoord()-boss.getxCoord())<700)  {
         boss.moveLeft();
         boss.faceRight();
 
-    }}
+    }
+}
     if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69] || !pressedKeys[83]) {
         player.idle();
     }
 
     if (pressedKeys[65]) {
         player.faceLeft();
-        player.moveLeft();
-        bckgX += 3;
-        witch.setxCoord(witch.getxCoord() + 3);
-        a += 3;
-        signx+=3;
-        signx2+=3;
-        slotx+=3;
+        player.moveLeft();;
     }
 
     if (player.isfacingright() && !slime.isfacingright()) {
@@ -270,13 +265,6 @@ if (Math.abs(player.getxCoord()-boss.getxCoord())<700)  {
     if (pressedKeys[68]) {
         player.faceRight();
         player.moveRight();
-            bckgX -= 3;
-            a -= 3;
-            signx-=3;
-            slotx-=3;
-            signx2-=3;
-            witch.setxCoord(witch.getxCoord() - 3);
-
         }
 
         if (talk2 && pressedKeys[49] && count>=15) {
@@ -339,15 +327,14 @@ if (!bossroom) {
 
             if (player.isattacking() || player.isSmash()) {
                 slime.death();
+                slime.setxCoord(999999);
                 count++;
             }
 
         }
 
-        if (slime.isdead()) {
-            slime.setdead(false);
-            slime.setxCoord((int) (Math.random() * player.getxCoord() + 2000));
-        }
+
+
     //PLAYER CLICKS U
     if (pressedKeys[85] && healthpot>=1 && hp<3) {
 
@@ -500,7 +487,7 @@ DO=false;
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (!animationPlaying) {
+        if (!animationPlaying && !player.isHit()) {
             if (e.getButton() == MouseEvent.BUTTON1) {
                 player.attack();
                 attackAnimationTimer.start();

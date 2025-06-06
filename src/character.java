@@ -213,6 +213,9 @@ public class character {
     public void hit(boolean bool){
         isHit = bool;
     }
+    public boolean isHit(){
+        return isHit;
+    }
 
     public BufferedImage getPlayerImage() {
         if (!isIdle) {

@@ -65,11 +65,7 @@ public class Witch {
     }
 
     public int getxCoord() {
-        if (facingRight) {
             return xCoord;
-        } else {
-            return (xCoord + (getPlayerImage().getWidth()));
-        }
     }
 
     public int getyCoord() {
@@ -85,11 +81,7 @@ public class Witch {
     }
 
     public int getWidth() {
-        if (facingRight) {
-            return getPlayerImage().getWidth();
-        } else {
-            return getPlayerImage().getWidth() * -1;
-        }
+        return getPlayerImage().getWidth();
     }
 
     public void faceRight() {
@@ -108,49 +100,7 @@ public class Witch {
         }
     }
 
-    public void moveRight() {
-        if (xCoord + .25 <= 1500) {
-            xCoord += 4;
-            if (yCoord == 900) {
-                isIdle = false;
-                jumping = false;
-                attack = false;
-            }
-        }
-    }
 
-
-    public void moveLeft() {
-        if (xCoord - 3 >= 0) {
-            xCoord -= 3;
-            if (yCoord == 900) {
-                isIdle = false;
-                jumping = false;
-                attack = false;
-            }
-        }
-    }
-
-
-    public void moveUp() {
-        if (yCoord == 900) {
-            yCoord -= 100;
-            isIdle = false;
-            jumping = true;
-            attack = false;
-        }
-    }
-
-    public void moveDown() {
-        if (yCoord + MOVE_AMT <= 900) {
-            yCoord += MOVE_AMT;
-            if (yCoord == 900) {
-                isIdle = false;
-                jumping = false;
-                attack = false;
-            }
-        }
-    }
 
     public void attack() {
         attack = true;
