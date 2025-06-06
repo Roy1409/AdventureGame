@@ -28,7 +28,7 @@ public class Boss {
 
     public Boss() {
         facingRight = false;
-        xCoord = 2000;
+        xCoord = 3000;
         yCoord = 550;
 //        try {
 //            right = ImageIO.read(new File("src\\images\\widle1.png"));
@@ -130,7 +130,7 @@ public class Boss {
 
     public void moveRight() {
         if (xCoord + 3 <= 2000) {
-            xCoord += 2;
+            xCoord += 4;
             if (yCoord == 925) {
                 y = false;
 

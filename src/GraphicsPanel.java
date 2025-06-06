@@ -57,8 +57,10 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage draw;
     private BufferedImage lose;
     private BufferedImage notenough;
+    private boolean move;
     private boolean DO;
     private int x;
+    private BufferedImage door1;
     private Timer attackAnimationTimer;
     private Timer smashAnimationTimer;
     private boolean animationPlaying;
@@ -154,10 +156,8 @@ g.drawImage(slot,slotx,750,null);
 }
 else{
 
-    g.drawImage(b1, bckgX-2051, -0, null);
+    g.drawImage(b1, 0, -0, null);
 
-    g.drawImage(b1,bckgX,0,null);
-    g.drawImage(b1, bckgX +(2051*2),-0,null);
 
         }
     text.setText(count + " Gold");
@@ -225,6 +225,23 @@ if (hp==3) {
         slime.faceLeft();
 
     }
+
+if (!player.isfacingright() && !boss.isfacingright()) {
+    boss.moveRight();
+}
+
+if (Math.abs(player.getxCoord()-boss.getxCoord())<700)  {
+    move=true;
+    if (player.getxCoord()-50> boss.getxCoord()) {
+
+        boss.moveRight();
+        boss.faceLeft();
+    }
+    if (player.getxCoord()< boss.getxCoord()) {
+        boss.moveLeft();
+        boss.faceRight();
+
+    }}
     if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69] || !pressedKeys[83]) {
         player.idle();
     }
@@ -238,15 +255,14 @@ if (hp==3) {
         signx+=3;
         signx2+=3;
         slotx+=3;
-        boss.moveLeft();
     }
 
     if (player.isfacingright() && !slime.isfacingright()) {
         slime.moveLeft();
     }
-    if ( boss.isfacingright()) {
-        boss.moveLeft();
-    }
+
+
+
 
 
 
@@ -259,7 +275,6 @@ if (hp==3) {
             signx-=3;
             slotx-=3;
             signx2-=3;
-
             witch.setxCoord(witch.getxCoord() - 3);
 
         }
@@ -375,7 +390,8 @@ if (!bossroom) {
 }catch (IOException e) {
     System.out.println(e.getMessage());
 }
-                } else if (x>70) {
+                } else if (x>70
+                ) {
                     count+=5;
                     try{
     word3=ImageIO.read(new File("src\\images\\draw.png"));
