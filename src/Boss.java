@@ -29,7 +29,7 @@ public class Boss {
     public Boss() {
         facingRight = false;
         xCoord = 2000;
-        yCoord = 105;
+        yCoord = 550;
 //        try {
 //            right = ImageIO.read(new File("src\\images\\widle1.png"));
 //        } catch (IOException e) {
@@ -141,7 +141,7 @@ public class Boss {
 
     public void moveLeft() {
         if (xCoord - 3 >= 0) {
-            xCoord -= 2;
+            xCoord -= 4;
             if (yCoord==925) {
                 y=false;
                 jumping=false;
