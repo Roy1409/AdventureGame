@@ -47,6 +47,18 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage b1;
     private boolean teleport;
     private Timer timer3;
+    private BufferedImage door;
+    private BufferedImage slot;
+    private int slotx;
+    private Rectangle rect3;
+    private BufferedImage word3;
+    private boolean show1;
+    private BufferedImage win;
+    private BufferedImage draw;
+    private BufferedImage lose;
+    private BufferedImage notenough;
+    private boolean DO;
+    private int x;
     private Timer attackAnimationTimer;
     private Timer smashAnimationTimer;
     private boolean animationPlaying;
@@ -54,7 +66,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
     public GraphicsPanel() {
         animationPlaying = false;
-        bossroom=false;
+        bossroom=true;
+        slotx=1850;
         signx2=3000;
         signx=125;
         healthpot=0;
@@ -62,11 +75,11 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         count1=0;
         a=2250;
         text=new JTextField("0 Gold",10);
-        count=1000000;
         attackAnimationTimer = new Timer(1105, this); // delete this
         attackAnimationTimer.setRepeats(false);
         smashAnimationTimer = new Timer(1445, this); // edit this
         smashAnimationTimer.setRepeats(false);
+        count=5;
         timer = new Timer(2, this);
         timer2=new Timer(2500,this);
         timer2.start();
@@ -86,8 +99,13 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         requestFocusInWindow(); // see comment above
         add(text);
         text.setLocation(25,0);
+        boss.faceRight();
 
         try{
+            notenough=ImageIO.read(new File("src\\images\\notenough.png"));
+            word3=ImageIO.read(new File("src\\images\\word3.png"));
+            slot=ImageIO.read(new File("src\\images\\slot.png"));
+            door=ImageIO.read(new File("src\\images\\door.png"));
             b1=ImageIO.read(new File("src\\images\\b1.jpg"));
             word2=ImageIO.read(new File("src\\images\\word2.png"));
             talk5=ImageIO.read(new File("src\\images\\talk5.png"));
@@ -106,14 +124,12 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }
     }
 
-
-
-
 @Override
 public void paintComponent(Graphics g) {
     super.paintComponent(g);
-     rect = new Rectangle(signx, 925, 80, 80);
-    rect2 = new Rectangle(signx2, 925, 80, 80);
+    rect = new Rectangle(signx, 925, 80, 80);
+    rect2 = new Rectangle(signx2, 800, 155, 200);
+    rect3=new Rectangle(slotx,750,172,250);
 if (!bossroom) {
     g.drawImage(b0, bckgX-1856, -475, null);
     g.drawImage(b0, bckgX, -475, null);
@@ -133,7 +149,9 @@ if (!bossroom) {
         g.drawImage(b0, bckgX +(1856*14),-475,null);
         g.drawImage(b0, bckgX +(1856*15),-475,null);
         g.drawImage(sign,signx-100,925,null);
-        g.drawImage(sign,signx2-100,925,null); }
+        g.drawImage(door,signx2-100,800,null);
+g.drawImage(slot,slotx,750,null);
+}
 else{
 
     g.drawImage(b1, bckgX-2051, -0, null);
@@ -219,14 +237,17 @@ if (hp==3) {
         a += 3;
         signx+=3;
         signx2+=3;
+        slotx+=3;
+        boss.moveLeft();
     }
 
     if (player.isfacingright() && !slime.isfacingright()) {
         slime.moveLeft();
     }
-    if (player.isfacingright() && !boss.isfacingright()) {
+    if ( boss.isfacingright()) {
         boss.moveLeft();
     }
+
 
 
     // player moves right (D)
@@ -236,6 +257,7 @@ if (hp==3) {
             bckgX -= 3;
             a -= 3;
             signx-=3;
+            slotx-=3;
             signx2-=3;
 
             witch.setxCoord(witch.getxCoord() - 3);
@@ -319,13 +341,66 @@ if (!bossroom) {
         repaint();
     }
 
+    if (!player.playerRect().intersects(rect3)) {
+        DO=true;
+        try{
+            word3=ImageIO.read(new File("src\\images\\word3.png"));
+        }catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    if (player.playerRect().intersects(rect3)) {
+        if (!bossroom && !show1) {
+            g.drawImage(word3, slotx, 700, null);
+        }
+
+        if (pressedKeys[69]) {
+
+            if (DO) {
+                if (!(count>=5)) {
+                    try{
+                        word3=ImageIO.read(new File("src\\images\\notenough.png"));
+                    }catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                } else{
+            x=(int) (Math.random()*101)+1;
+            count-=5;
+                if (x>80) {
+                    count+=25;
+                    try{
+    word3=ImageIO.read(new File("src\\images\\win.png"));
+}catch (IOException e) {
+    System.out.println(e.getMessage());
+}
+                } else if (x>50) {
+                    count+=5;
+                    try{
+    word3=ImageIO.read(new File("src\\images\\draw.png"));
+}catch (IOException e) {
+    System.out.println(e.getMessage());
+}
+                     } else {
+                    try {
+                        word3 = ImageIO.read(new File("src\\images\\lose.png"));
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                }}}
+DO=false;
+        }
+    }
+
     if (player.playerRect().intersects(rect)) {
         if (!bossroom)  {
         g.drawImage(word,signx-175,800,null); }
     }
     if (player.playerRect().intersects(rect2)) {
         if (!bossroom){
-        g.drawImage(word2,signx2-200,800,null); }
+        g.drawImage(word2,signx2-150,700,null); }
 
         if (pressedKeys[69]) {
             bossroom=true;
@@ -362,14 +437,6 @@ if (!bossroom) {
         }
             }else {
                 player.hit(false);
-        }}
-
-if (e.getSource()==timer3) {
-        if (pressedKeys[81]) {
-            teleport=true;
-            if (player.isfacingright()) {
-                player.setxCoord(player.getxCoord()+100);
-        }
 
     }}
 
