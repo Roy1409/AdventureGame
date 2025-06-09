@@ -70,10 +70,12 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Timer slimeDeathTimer;
     private BufferedImage death;
     private Timer de;
+    private int slimeHp;
 
 
     public GraphicsPanel() {
         scene = 1;
+        slimeHp = 2;
         animationPlaying = false;
         bossroom=false; //edit
         slotx=850;
@@ -152,7 +154,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
         if (!h){
             g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
-
         }
             }
             else if (scene == 2) {
@@ -287,8 +288,16 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         if (pressedKeys[65]) {
             player.faceLeft();
             player.moveLeft();;
-            if (player.getxCoord() <= 0) {
-                scene--;
+            if (player.getxCoord() <= 100) {
+             if (scene==2) {
+                 scene=1;
+                 player.setxCoord(1900);
+             }
+             if (scene==3) {
+                 scene=2;
+                 player.setxCoord(1900);
+
+             }
             }
         }
         // player moves right (D)
@@ -334,11 +343,14 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             }
 
             if (player.isattacking() || player.isSmash()) {
-                slimeDeathTimer.start();
-                slime.death();
-                count++;
+                slimeHp--;
+                slime.getHit();
+                if (slimeHp < 1) {
+                    slimeDeathTimer.start();
+                    slime.death();
+                    count++;
+                }
             }
-
         }
 
 

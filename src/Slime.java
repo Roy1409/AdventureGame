@@ -17,12 +17,13 @@ public class Slime {
     private int score;
     private Animation animation;
     private Animation death;
-    private Animation idle;
+    private Animation takeHit;
     private Animation jump;
     private Animation attacking;
     private boolean y;
     private boolean jumping;
     private boolean attack;
+    private boolean hit;
     private boolean dead;
 
 
@@ -60,17 +61,15 @@ public class Slime {
             }
         }
 
-    /*    ArrayList<BufferedImage> x = new ArrayList<>();*/
-
-/*
-        for (int i = 1; i < 9; i++) {
-            String filename = "src\\images\\widle_" + i + ".png";
+      ArrayList<BufferedImage> gotHit = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            String filename = "src\\images\\shit" + i + ".png";
             try {
-                x.add(ImageIO.read(new File(filename)));
+                gotHit.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-        }*/
+        }
         /*ArrayList<BufferedImage> jumps=new ArrayList<>();
         for (int i=1; i<4; i++) {
             String filename = "src\\images\\wj_up_"+ i + ".png";
@@ -95,7 +94,7 @@ public class Slime {
 
         death=new Animation(q,100);
         animation = new Animation(images, 100);
-        /*  idle = new Animation(x, 100);*/
+        takeHit = new Animation(gotHit, 100);
        /* jump= new Animation(jumps,100);
         attacking=new Animation(attk,50);*/
     }
@@ -150,7 +149,9 @@ public class Slime {
 
                 jumping = false;
                 attack=false;
-            }}}
+            }
+        }
+    }
 
 
     public void moveLeft() {
@@ -161,28 +162,8 @@ public class Slime {
                 jumping=false;
                 attack=false;
             }
-        }}
-
-
-    public void moveUp() {
-        if (yCoord==925) {
-            yCoord -= 100;
-            y=false;
-            jumping=true;
-            attack=false;
         }
     }
-
-    public void moveDown() {
-        if (yCoord + MOVE_AMT <= 925) {
-            yCoord += MOVE_AMT;
-            if (yCoord==435) {
-                y=false;
-                jumping=false;
-                attack=false;
-            }  }
-    }
-
     public void attack() {
         if (facingRight) {
             xCoord += 30;
@@ -191,10 +172,15 @@ public class Slime {
         }
 
     }
-
+public boolean getHit(){
+        return hit;
+}
     public BufferedImage getPlayerImage() {
         if (dead) {
             return death.getActiveFrame();
+        }
+        if (hit){
+            return takeHit.getActiveFrame();
         }
         return animation.getActiveFrame();
     }
