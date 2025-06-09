@@ -25,4 +25,8 @@ public class Animation implements ActionListener {
             currentFrame = (currentFrame + 1) % frames.size();
         }
     }
+
+    public int getCurrentFrameIndex() {
+        return currentFrame;
+    }
 }

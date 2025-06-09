@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 
 public class Slime {
-    private final int MOVE_AMT = 3;
+    private int MOVE_AMT = 2;
     private BufferedImage right;
     private boolean facingRight;
     private int xCoord;
@@ -28,7 +28,7 @@ public class Slime {
 
     public Slime() {
         facingRight = false;
-        xCoord = 800;
+        xCoord = 1700;
         yCoord = 925;
         score = 0;
 /*
@@ -99,7 +99,9 @@ public class Slime {
        /* jump= new Animation(jumps,100);
         attacking=new Animation(attk,50);*/
     }
-
+    public void setMOVE_AMT(int x){
+        MOVE_AMT = x;
+    }
     public int getxCoord() {
             return xCoord;
     }
@@ -142,7 +144,7 @@ public class Slime {
 
     public void moveRight() {
         if (xCoord + 3 <= 2000) {
-            xCoord += 2;
+            xCoord += MOVE_AMT;
             if (yCoord == 925) {
                 y = false;
 
@@ -153,7 +155,7 @@ public class Slime {
 
     public void moveLeft() {
         if (xCoord - 3 >= 0) {
-            xCoord -= 2;
+            xCoord -= MOVE_AMT;
             if (yCoord==925) {
                 y=false;
                 jumping=false;
@@ -182,13 +184,19 @@ public class Slime {
     }
 
     public void attack() {
-        attack=true;
+        if (facingRight) {
+            xCoord += 30;
+        } else {
+            xCoord -= 30;
+        }
+
     }
 
     public BufferedImage getPlayerImage() {
-        if (!dead) {
-        return animation.getActiveFrame();  }
-        return death.getActiveFrame();
+        if (dead) {
+            return death.getActiveFrame();
+        }
+        return animation.getActiveFrame();
     }
 
     public Rectangle playerRect() {

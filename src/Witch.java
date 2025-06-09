@@ -24,7 +24,7 @@ public class Witch {
 
     public Witch() {
         facingRight = true;
-        xCoord = 2350;
+        xCoord = 1350;
         yCoord = 855;
         score = 0;
         try {
@@ -59,7 +59,7 @@ public class Witch {
          */
 
 
-        animation = new Animation(images, 100);
+        animation = new Animation(images, 150);
 
         /* jump= new Animation(jumps,100);*/
     }

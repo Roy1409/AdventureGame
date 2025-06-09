@@ -1,11 +1,8 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.File; import java.io.IOException;
 import java.util.ArrayList;
-
-
 public class character {
     private final int MOVE_AMT = 3;
     private BufferedImage right;
@@ -26,11 +23,13 @@ public class character {
     private boolean attack;
     private boolean smash;
     private boolean isHit;
-
-
+    private int WalkLimitR;
+    private int WalkLimitL;
 
 
     public character() {
+        WalkLimitR = 1930;
+        WalkLimitL = -10;
         facingRight = true;
         xCoord = 50;
         yCoord = 900;
@@ -42,7 +41,7 @@ public class character {
         }
         ArrayList<BufferedImage> gotHit = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            String filename = "src\\images\\hit"+ i + ".png";
+            String filename = "src\\images\\hit" + i + ".png";
             try {
                 gotHit.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
@@ -52,28 +51,25 @@ public class character {
 
         ArrayList<BufferedImage> images = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
-            String filename = "src\\images\\run"+ i + ".png";
+            String filename = "src\\images\\run" + i + ".png";
             try {
                 images.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
-        ArrayList<BufferedImage> atk =new ArrayList<>();
-        for (int i=0; i<12; i++) {
-            if (i >= 11){
-                attack = false;
-            }
-            String filename = "src\\images\\thrust"+ i + ".png";
+        ArrayList<BufferedImage> atk = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            String filename = "src\\images\\thrust" + i + ".png";
             try {
                 atk.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
-        ArrayList<BufferedImage> atk2 =new ArrayList<>();
-        for (int i=0; i<17; i++) {
-            String filename = "src\\images\\smash"+ i + ".png";
+        ArrayList<BufferedImage> atk2 = new ArrayList<>();
+        for (int i = 0; i < 17; i++) {
+            String filename = "src\\images\\smash" + i + ".png";
             try {
                 atk2.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
@@ -81,7 +77,7 @@ public class character {
             }
         }
 
-       ArrayList<BufferedImage> x = new ArrayList<>();
+        ArrayList<BufferedImage> x = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             String filename = "src\\images\\idle" + i + ".png";
             try {
@@ -90,24 +86,24 @@ public class character {
                 System.out.println(e.getMessage());
             }
         }
-        /*ArrayList<BufferedImage> jumps=new ArrayList<>();
-        for (int i=1; i<4; i++) {
-            String filename = "src\\images\\wj_up_"+ i + ".png";
-            try {
-                jumps.add(ImageIO.read(new File(filename)));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+    /*ArrayList<BufferedImage> jumps=new ArrayList<>();
+    for (int i=1; i<4; i++) {
+        String filename = "src\\images\\wj_up_"+ i + ".png";
+        try {
+            jumps.add(ImageIO.read(new File(filename)));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
+    }
 
-         */
+     */
 
-        smashing = new Animation(atk2, 85);
+        smashing = new Animation(atk2, 100);
         animation = new Animation(images, 100);
-        attacking=new Animation(atk,85);
+        attacking = new Animation(atk, 100);
         idle = new Animation(x, 100);
         hit = new Animation(gotHit, 150);
-       /* jump= new Animation(jumps,100);*/
+        /* jump= new Animation(jumps,100);*/
     }
 
     public int getxCoord() {
@@ -153,67 +149,77 @@ public class character {
             faceRight();
         }
     }
+    public void setWalkLimitR(int left, int right){
+        WalkLimitR = right;
+        WalkLimitL = left;
+    }
 
     public void moveRight() {
-        if (xCoord <= 1700) {
+        if (xCoord <= WalkLimitR) {
             xCoord += 3;
         }
-            isIdle = false;
-            if (yCoord == 900) {
-                jumping = false;
-                attack=false;
-                smash=false;
-            }}
+        isIdle = false;
+        if (yCoord == 900) {
+            jumping = false;
+            attack = false;
+            smash = false;
+        }
+    }
 
 
     public void moveLeft() {
-        if (xCoord - 3 >= 100) {
+        if (xCoord >= WalkLimitL) {// was - 3
             xCoord -= 3;
-            if (yCoord==900) {
-                isIdle =false;
-                jumping=false;
-                attack=false;
+            if (yCoord == 900) {
+                isIdle = false;
+                jumping = false;
+                attack = false;
                 smash = false;
             }
-    }}
+        }
+    }
 
 
     public void moveUp() {
-        if (yCoord==900) {
+        if (yCoord == 900) {
             yCoord -= 100;
-            isIdle =false;
-            jumping=true;
-            attack=false;
-             smash  =false;
+            isIdle = false;
+            jumping = true;
+            attack = false;
+            smash = false;
 
         }
     }
 
     public void moveDown() {
         if (yCoord + MOVE_AMT <= 900) {
-           yCoord += MOVE_AMT;
-            if (yCoord==900) {
-            isIdle =false;
-            jumping=false;
-                attack=false;
+            yCoord += MOVE_AMT;
+            if (yCoord == 900) {
+                isIdle = false;
+                jumping = false;
+                attack = false;
                 smash = false;
-            }  }
+            }
+        }
     }
 
     public void attack() {
         if (!isattacking()) {
-            attack = true;
+            this.attack = true;
         }
     }
-    public void smash(){
+
+    public void smash() {
         if (!isSmash()) {
-            smash = true;
+            this.smash = true;
         }
     }
-    public void hit(boolean bool){
+
+    public void hit(boolean bool) {
         isHit = bool;
     }
-    public boolean isHit(){
+
+    public boolean isHit() {
         return isHit;
     }
 
@@ -221,17 +227,23 @@ public class character {
         if (!isIdle) {
             return animation.getActiveFrame();
         }
-     /*   if (jumping) {
-            return jump.getActiveFrame();
-        }*/
-        if (attack){
+ /*   if (jumping) {
+        return jump.getActiveFrame();
+    }*/
+        if (attack) {
             return attacking.getActiveFrame();
 
         }
-        if (smash){
+        if (smash) {
+            if (smashing.getCurrentFrameIndex() >= 9 && smashing.getCurrentFrameIndex() <= 16) { // fix here
+                yCoord = 800;
+            } else {
+                yCoord = 900;
+            }
             return smashing.getActiveFrame();
         }
-        if (isHit){
+
+        if (isHit) {
             return hit.getActiveFrame();
         }
 
@@ -247,16 +259,16 @@ public class character {
         return rect;
     }
 
-    public void setxCoord(int x ) {
-        xCoord=x;
+    public void setxCoord(int x) {
+        xCoord = x;
     }
 
     public void idle() {
-        isIdle =true;
+        isIdle = true;
     }
 
-    public void setJumping(boolean x){
-        jumping=x;
+    public void setJumping(boolean x) {
+        jumping = x;
     }
 
     public void fall() {
@@ -266,12 +278,13 @@ public class character {
     public boolean isattacking() {
         return attack;
     }
-    public boolean isSmash(){
+
+    public boolean isSmash() {
         return smash;
     }
 
 
-    public boolean isfacingright(){
+    public boolean isfacingright() {
         return facingRight;
     }
 
