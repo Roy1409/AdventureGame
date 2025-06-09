@@ -146,6 +146,35 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             else if (scene == 2) {
                 player.setWalkLimitR(-100, 1930);
                 g.drawImage(hut, witchX, 700, null);
+                if (talk) {
+                    g.drawImage(talk1,witch.getxCoord(),775,null);
+                }
+                if (talk2) {
+                    g.drawImage(talk3,witch.getxCoord(),775,null);
+
+                }
+                if (talk4) {
+                    g.drawImage(talk5,witch.getxCoord(),775,null);
+                }
+                if (talk2 && pressedKeys[49] && count>=15) {
+                    if (!talk4) {
+                        healthpot++;
+                        count-=15;
+                        show=true;
+                        count1=0;
+                        talk2=false;
+                        talk4=true;
+
+                    }  }
+                if (talk2 && pressedKeys[50] && count>=20) {
+                    if (!talk4) {
+                        moveunlocked=true;
+                        count-=15;
+                        show=true;
+                        count1=0;
+                        talk2=false;
+                        talk4=true;
+                    }  }
                 g.drawImage(slot, slotx, 750, null);
                 g.drawImage(witch.getPlayerImage(), witch.getxCoord(), witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
             }
@@ -169,16 +198,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }
         if (bossroom){
             g.drawImage(boss.getPlayerImage(), boss.getxCoord(), boss.getyCoord(), boss.getWidth(), boss.getHeight(), null);
-        }
-        if (talk) {
-            g.drawImage(talk1,witch.getxCoord(),775,null);
-        }
-        if (talk2) {
-            g.drawImage(talk3,witch.getxCoord(),775,null);
-
-        }
-        if (talk4) {
-            g.drawImage(talk5,witch.getxCoord(),775,null);
         }
 
         if (!slime.isdead()) {
@@ -268,30 +287,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
         }
 
-        if (talk2 && pressedKeys[49] && count>=15) {
-            if (!talk4) {
-
-                healthpot++;
-
-
-
-                count-=15;
-                show=true;
-                count1=0;
-                talk2=false;
-                talk4=true;
-
-            }  }
-
-        if (talk2 && pressedKeys[50] && count>=20) {
-            if (!talk4) {
-                moveunlocked=true;
-                count-=15;
-                show=true;
-                count1=0;
-                talk2=false;
-                talk4=true;
-            }  }
 
 
 
@@ -350,7 +345,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }
 
         if (player.playerRect().intersects(rect3)) {
-            if (!bossroom && !show1) {
+            if (!bossroom && !show1 && scene ==  2) {
                 g.drawImage(word3, slotx, 700, null);
             }
 
@@ -395,11 +390,11 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }
 
         if (player.playerRect().intersects(rect)) {
-            if (!bossroom)  {
+            if (!bossroom && scene == 1)  {
                 g.drawImage(word,signx-175,800,null); }
         }
         if (player.playerRect().intersects(rect2)) {
-            if (!bossroom){
+            if (!bossroom && scene == 3){
                 g.drawImage(word2,signx2-150,700,null); }
 
             if (pressedKeys[69]) {
