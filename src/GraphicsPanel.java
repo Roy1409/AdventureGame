@@ -195,9 +195,10 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                 g.drawImage(witch.getPlayerImage(), witch.getxCoord(), witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
             }
             else if (scene == 3) {
+                slime.death();
+                slime.setxCoord(999999);
                 player.setWalkLimitR(-100, 1910);
                 g.drawImage(door, signx2 - 100, 800, null);
-                g.drawImage(sign, signx2 - 100, 800, null);
             }
         }
 
@@ -287,7 +288,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
         if (pressedKeys[65]) {
             player.faceLeft();
-            player.moveLeft();;
+            player.moveLeft();
+            if (!bossroom) {
             if (player.getxCoord() <= 100) {
              if (scene==2) {
                  scene=1;
@@ -297,9 +299,9 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                  scene=2;
                  player.setxCoord(1900);
 
-             }
-            }
-        }
+             } }
+
+        } }
         // player moves right (D)
         if (pressedKeys[68]) {
             player.faceRight();
@@ -425,7 +427,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
             if (pressedKeys[69]) {
                 bossroom=true;
-                slime.setxCoord(99999);
+                slime.setxCoord(9999999);
                 player.setxCoord(50);
                 boss.setxCoord(1000);
                 bckgX=0;
@@ -461,7 +463,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                     player.hit(true);
                     hitAnimationTimer.start();
                     repaint();
-                    hp--;
+                    if (!bossroom) {
+                    hp--; }
                     if (player.isHit()) {
                         if (slime.isfacingright()) {
                             player.setxCoord(player.getxCoord() - 20);
