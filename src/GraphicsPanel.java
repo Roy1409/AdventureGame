@@ -343,13 +343,11 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             }
 
             if (player.isattacking() || player.isSmash()) {
-                slimeHp--;
-                slime.getHit();
-                if (slimeHp < 1) {
+
                     slimeDeathTimer.start();
                     slime.death();
                     count++;
-                }
+
             }
         }
 
