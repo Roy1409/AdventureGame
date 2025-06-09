@@ -30,6 +30,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private int healthpot;
     private boolean show;
     private BufferedImage pot;
+    private boolean h;
     private int count1;
     private boolean talk4;
     private BufferedImage talk5;
@@ -65,7 +66,9 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Timer hitAnimationTimer;
     private boolean animationPlaying;
     private int scene;
+    private Timer deas;
     private Timer slimeDeathTimer;
+    private BufferedImage death;
 
 
     public GraphicsPanel() {
@@ -85,6 +88,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         smashAnimationTimer = new Timer(1445, this); // edit this
         smashAnimationTimer.setRepeats(false);
         count=100;
+        deas=new Timer(1000,this);
         hitAnimationTimer = new Timer(200, this);
         slimeDeathTimer = new Timer(200, this);
         hitAnimationTimer.setRepeats(false);
@@ -92,6 +96,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         timer2=new Timer(2500,this);
         timer2.start();
         timer.start();
+        deas.start();
         timer3= new Timer(500,this);
         timer3.start();
         bckgX =0;
@@ -141,7 +146,11 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             if (scene == 1) {
                 player.setWalkLimitR(0, 1930);
                 g.drawImage(sign, signx - 100, 925, null);
-                g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
+
+        if (!h) {
+            g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
+
+        }
             }
             else if (scene == 2) {
                 player.setWalkLimitR(-100, 1930);
@@ -157,6 +166,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }
 
         text.setText(count + " Gold");
+
+
         if (healthpot==1) {
             g.drawImage(pot,0,125,null); }
         if (healthpot==2) {
@@ -455,7 +466,10 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                 player.hit(false);
             }
         }
-
+if (e.getSource()==deas && slime.isdead()) {
+    h=true;
+    repaint();
+}
         if (e.getSource() == attackAnimationTimer) {
             player.setAttacking(false);
             player.idle();
