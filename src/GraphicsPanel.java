@@ -202,7 +202,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
         text.setText(count + " Gold");
 
-
         if (healthpot==1) {
             g.drawImage(pot,0,125,null); }
         if (healthpot==2) {
@@ -476,6 +475,7 @@ if (e.getSource() == de && h) {
     slime.revive();
     slime.setxCoord(1700);
 }
+
         if (e.getSource() == attackAnimationTimer) {
             player.setAttacking(false);
             player.idle();
