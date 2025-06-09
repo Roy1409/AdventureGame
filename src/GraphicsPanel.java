@@ -150,12 +150,15 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                 player.setWalkLimitR(0, 1930);
                 g.drawImage(sign, signx - 100, 925, null);
 
-        if (!h) {
+        if (!h){
             g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
 
         }
             }
             else if (scene == 2) {
+                slime.death();
+                slime.setxCoord(999999);
+
                 player.setWalkLimitR(-100, 1930);
                 g.drawImage(hut, witchX, 700, null);
                 if (talk) {
