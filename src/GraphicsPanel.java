@@ -69,6 +69,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Timer deas;
     private Timer slimeDeathTimer;
     private BufferedImage death;
+    private Timer de;
 
 
     public GraphicsPanel() {
@@ -88,6 +89,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         smashAnimationTimer = new Timer(1445, this); // edit this
         smashAnimationTimer.setRepeats(false);
         count=100;
+        de= new Timer(2000,this);
+        de.start();
         deas=new Timer(1000,this);
         hitAnimationTimer = new Timer(200, this);
         slimeDeathTimer = new Timer(200, this);
@@ -464,6 +467,11 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 if (e.getSource()==deas && slime.isdead()) {
     h=true;
     repaint();
+}
+if (e.getSource() == de && h) {
+    h=false;
+    slime.revive();
+    slime.setxCoord(1700);
 }
         if (e.getSource() == attackAnimationTimer) {
             player.setAttacking(false);

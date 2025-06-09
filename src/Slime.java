@@ -222,6 +222,10 @@ public class Slime {
        xCoord=x;
     }
 
+    public void revive() {
+        dead = false;
+    }
+
     public void death() {
         dead=true;
     }
