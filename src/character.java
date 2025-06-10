@@ -156,7 +156,7 @@ public class character {
 
     public void moveRight() {
         if (xCoord <= WalkLimitR) {
-            xCoord += 3;
+            xCoord += 5;
         }
         isIdle = false;
         if (yCoord == 900) {
@@ -169,7 +169,7 @@ public class character {
 
     public void moveLeft() {
         if (xCoord >= WalkLimitL) {// was - 3
-            xCoord -= 3;
+            xCoord -= 5;
             if (yCoord == 900) {
                 isIdle = false;
                 jumping = false;

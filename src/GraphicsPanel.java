@@ -140,6 +140,13 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         add(text);
         text.setLocation(25,0);
         boss.faceRight();
+        if(player.isfacingright()) {
+            ice.faceRight();
+            ice.setxCoord(player.getxCoord()+75); }
+        if (!player.isfacingright()) {
+            ice.faceLeft();
+            ice.setxCoord(player.getxCoord()-75);
+        }
 
         try{
             dashe=ImageIO.read(new File("src\\images\\dash.png"));
@@ -168,10 +175,12 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         rect = new Rectangle(signx, 925, 80, 80);
         rect2 = new Rectangle(signx2, 800, 155, 200);
         rect3=new Rectangle(slotx,750,172,250);
         rect4=new Rectangle(450,775,196,216);
+
         if (!bossroom && !over) {
 
             g.drawImage(b0, 20, -470, null);
@@ -477,8 +486,10 @@ if (ice.getxCoord()<0 || ice.getxCoord()>1920) {
 }
 if (iced) {
     g.drawImage(ice.getPlayerImage(), ice.getxCoord(), ice.getyCoord(), ice.getWidth(), ice.getHeight(), null);
-    if (right) {ice.setxCoord(ice.getxCoord()+5); }
-    if (!right) {ice.setxCoord(ice.getxCoord()-5); ice.faceLeft();
+    if (right) { ice.faceRight();
+        ice.setxCoord(ice.getxCoord()+5); }
+    if (!right) { ice.faceLeft();
+        ice.setxCoord(ice.getxCoord()-5); ice.faceLeft();
 } }
         //PLAYER CLICKS U
         if (pressedKeys[85] && healthpot>=1 && hp<3) {
