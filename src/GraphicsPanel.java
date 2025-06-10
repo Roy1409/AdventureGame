@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class GraphicsPanel extends JPanel implements ActionListener, KeyListener, MouseListener {
-    private BufferedImage background;
     private Timer timer;
     private Npc npc;
     private character player;
@@ -20,9 +19,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage hut;
     private BufferedImage heart;
     private int witchX;
-    private Timer timer5;
-    private BufferedImage gameover;
-    private int bckgX;
+    private BufferedImage gameover;;
     private boolean over;
     private BufferedImage control;
     private BufferedImage word4;
@@ -38,40 +35,27 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private boolean talk2;
     private int hp;
     private int healthpot;
-    private boolean show;
     private BufferedImage pot;
     private boolean h;
     private boolean iced;
     private Rectangle rect4;
-    private int count1;
     private boolean talk4;
     private BufferedImage talk5;
     private boolean moveunlocked;
     private Timer timer2;
-    private int signx;
     private boolean talked;
-    private Rectangle rect;
-    private BufferedImage word;
     private boolean accept;
     private int signx2;
     private Rectangle rect2;
     private BufferedImage word2;
     private boolean bossroom;
-    private BufferedImage b1;
     private BufferedImage dashe;
-    private boolean teleport;
     private Timer timer3;
     private BufferedImage door;
     private BufferedImage slot;
     private int slotx;
     private Rectangle rect3;
     private BufferedImage word3;
-    private boolean show1;
-    private BufferedImage win;
-    private BufferedImage draw;
-    private BufferedImage lose;
-    private BufferedImage notenough;
-    private boolean move;
     private boolean DO;
     private int x;
     private BufferedImage door1;
@@ -85,26 +69,20 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage death;
     private Timer de;
     private boolean dash;
-    private int slimeHp;
 
 
     public GraphicsPanel() {
         scene = 1;
         npc = new Npc();
-        slimeHp = 2;
         ice=new projectile();
         ice.faceRight();
         npc.faceRight();
         animationPlaying = false;
-
         bossroom=false; //edit
         slotx=850;
         signx2=1600;
-        signx=125;
         healthpot=0;
         hp=3;
-        count1=0;
-        timer5=new Timer(50,this);
         witchX=1150;
         text=new JTextField("0 Gold",10);
         attackAnimationTimer = new Timer(1105, this); // delete this
@@ -126,7 +104,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         deas.start();
         timer3= new Timer(500,this);
         timer3.start();
-        bckgX =0;
         witch=new Witch();
         player= new character();
         slime=new Slime();
@@ -154,11 +131,9 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             gameover=ImageIO.read(new File("src\\images\\gameover.jpg"));
             slimekilled=ImageIO.read(new File("src\\images\\slimekilled1.png"));
             word4=ImageIO.read(new File("src\\images\\word4.png"));
-            notenough=ImageIO.read(new File("src\\images\\notenough.png"));
             word3=ImageIO.read(new File("src\\images\\word3.png"));
             slot=ImageIO.read(new File("src\\images\\slot.png"));
             door=ImageIO.read(new File("src\\images\\door.png"));
-            b1=ImageIO.read(new File("src\\images\\b1.jpg"));
             word2=ImageIO.read(new File("src\\images\\word2.png"));
             talk5=ImageIO.read(new File("src\\images\\talk5.png"));
             pot=ImageIO.read(new File("src\\images\\healthpot.png"));
@@ -175,20 +150,20 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        rect = new Rectangle(signx, 925, 80, 80);
+        if (!accept) {
+            slimecount=0;
+        }
         rect2 = new Rectangle(signx2, 800, 155, 200);
         rect3=new Rectangle(slotx,750,172,250);
         rect4=new Rectangle(450,775,196,216);
-
         if (!bossroom && !over) {
-
             g.drawImage(b0, 20, -470, null);
             if (scene == 1) {
+                if (talked) {
+                    g.drawImage(word4, 400, 700, null);
+                }
                 player.setWalkLimitR(0, 1930);
                 g.drawImage(npc.getPlayerImage(), npc.getxCoord(), npc.getyCoord(), npc.getWidth(), npc.getHeight(), null);
-
-
                 if (!h){
             g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
         }
@@ -213,8 +188,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                     if (!talk4) {
                         healthpot++;
                         count-=15;
-                        show=true;
-                        count1=0;
                         talk2=false;
                         talk4=true;
 
@@ -223,8 +196,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                     if (!talk4) {
                         moveunlocked=true;
                         count-=15;
-                        show=true;
-                        count1=0;
                         talk2=false;
                         talk4=true;
                     }  }
@@ -282,10 +253,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             if (!player.playerRect().intersects(rect4)) {
                 talked=false;
             }
-
-
             if (talked) {
-                g.drawImage(word4,400,700,null);
                 if (pressedKeys[89]) {
                     accept=true;
 
@@ -320,75 +288,68 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                 }
             }
         }
-
-
-
         if (!player.isfacingright() && !boss.isfacingright()) {
             boss.moveRight();
         }
-if (dash) {
-    if (player.isfacingright()) {
-    g.drawImage(dashe,player.getxCoord()-50,875,null); }
-    if (!player.isfacingright()){
-    g.drawImage(dashe,player.getxCoord()-100,875,null);
+    if (dash) {
+        if (player.isfacingright()) {
+        g.drawImage(dashe,player.getxCoord()-50,875,null); }
+        if (!player.isfacingright()){
+        g.drawImage(dashe,player.getxCoord()-100,875,null);
+        }
     }
-}
         if (Math.abs(player.getxCoord()-boss.getxCoord())<700)  {
-            move=true;
             if (player.getxCoord()-50> boss.getxCoord()) {
-
                 boss.moveRight();
                 boss.faceLeft();
             }
             if (player.getxCoord()< boss.getxCoord()) {
                 boss.moveLeft();
                 boss.faceRight();
-
             }
         }
         if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69] || !pressedKeys[83]) {
             player.idle();
         }
-
         if (hp==0)  {
             over=true;
             g.drawImage(gameover,0,0,null);
         }
-if (accept) {
-    g.drawImage(slimekilled,350,75,null);
-    if (slimecount==0) {
-        try {
-            slimekilled=ImageIO.read(new File("src\\images\\slimekilled1.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    if (accept) {
+        g.drawImage(slimekilled,350,75,null);
+        if (slimecount==0) {
+            try {
+                slimekilled=ImageIO.read(new File("src\\images\\slimekilled1.png"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (slimecount==1) {
+            try {
+                slimekilled=ImageIO.read(new File("src\\images\\slimekilled2.png"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }    else if(slimecount==2) {
+            try {
+                slimekilled=ImageIO.read(new File("src\\images\\slimekilled3.png"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }    else if(slimecount==3) {
+            try {
+                slimekilled=ImageIO.read(new File("src\\images\\slimekilled4.png"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }    else if(slimecount==4) {
+            try {
+                slimekilled=ImageIO.read(new File("src\\images\\slimekilled5.png"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
-    if (slimecount==1) {
-        try {
-            slimekilled=ImageIO.read(new File("src\\images\\slimekilled2.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }    else if(slimecount==2) {
-        try {
-            slimekilled=ImageIO.read(new File("src\\images\\slimekilled3.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }    else if(slimecount==3) {
-        try {
-            slimekilled=ImageIO.read(new File("src\\images\\slimekilled4.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }    else if(slimecount==4) {
-        try {
-            slimekilled=ImageIO.read(new File("src\\images\\slimekilled5.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-}
         if (pressedKeys[65]) {
             player.faceLeft();
             player.moveLeft();
@@ -402,10 +363,11 @@ if (accept) {
                  scene=2;
                  player.setxCoord(1900);
 
-             } }
+             }
+            }
 
-        }
-        dash=false;
+         }
+            dash=false;
         }
         // player moves right (D)
         if (pressedKeys[68]) {
@@ -414,30 +376,23 @@ if (accept) {
             if (player.getxCoord() >= 1920) {
                 scene++;
                 player.setxCoord(50);
-
             }
-dash=false;
+            dash=false;
         }
-
-
-
-
         if (!bossroom) {
             if (pressedKeys[69]) {
                 if (player.playerRect().intersects(witch.playerRect())) {
                     talk=true;
                     talk4=false;
                 }
-            } }
-
+            }
+        }
         if (talk && pressedKeys[66]) {
             talk=false;
             talk2=true;
             talk4=false;
         }
-
         if (!player.playerRect().intersects(witch.playerRect())) {
-            count1=0;
             talk=false;
             talk2=false;
             talk4=false;
@@ -448,57 +403,62 @@ dash=false;
             } else {
                 slime.faceLeft();
             }
-
             if (player.isattacking() || player.isSmash()) {
-
                     slimeDeathTimer.start();
                     slime.death();
-
             }
         }
-if (slime.playerRect().intersects(ice.playerRect())) {
-    slimeDeathTimer.start();
-    slime.death();
-    iced=false;
-    if(player.isfacingright()) {
-    ice.setxCoord(player.getxCoord()+75); }
-    if (!player.isfacingright()) {
-        ice.setxCoord(player.getxCoord()-75);
-    }
-
-}
-if (!iced) {
-        if (pressedKeys[82]) {
-            iced=true;
-            right=player.isfacingright();
-}  }
-
-if (ice.getxCoord()<0 || ice.getxCoord()>1920) {
-    iced=false;
-    right=player.isfacingright();
-    if(player.isfacingright()) {
-        ice.faceRight();
+    if (slime.playerRect().intersects(ice.playerRect())) {
+        slimeDeathTimer.start();
+        slime.death();
+        iced=false;
+        if(player.isfacingright()) {
         ice.setxCoord(player.getxCoord()+75); }
-    if (!player.isfacingright()) {
-        ice.faceLeft();
-        ice.setxCoord(player.getxCoord()-75);
+        if (!player.isfacingright()) {
+            ice.setxCoord(player.getxCoord()-75);
+        }
     }
-}
-if (iced) {
-    g.drawImage(ice.getPlayerImage(), ice.getxCoord(), ice.getyCoord(), ice.getWidth(), ice.getHeight(), null);
-    if (right) { ice.faceRight();
-        ice.setxCoord(ice.getxCoord()+5); }
-    if (!right) { ice.faceLeft();
-        ice.setxCoord(ice.getxCoord()-5); ice.faceLeft();
-} }
+    if (!iced) {
+            if (pressedKeys[82]) {
+                iced=true;
+        }
+        right=player.isfacingright();
+        if(player.isfacingright()) {
+            ice.faceRight();
+            ice.setxCoord(player.getxCoord()+75); }
+        if (!player.isfacingright()) {
+            ice.faceLeft();
+            ice.setxCoord(player.getxCoord()-75);
+        }
+    }
+    if (ice.getxCoord()<0 || ice.getxCoord()>1920) {
+        iced=false;
+        right=player.isfacingright();
+        if(player.isfacingright()) {
+            ice.faceRight();
+            ice.setxCoord(player.getxCoord()+75); }
+        if (!player.isfacingright()) {
+            ice.faceLeft();
+            ice.setxCoord(player.getxCoord()-75);
+        }
+    }
+    if (iced) {
+        g.drawImage(ice.getPlayerImage(), ice.getxCoord(), ice.getyCoord(), ice.getWidth(), ice.getHeight(), null);
+        if (right) {
+            ice.faceRight();
+            ice.setxCoord(ice.getxCoord()+5);
+        }
+        if (!right) {
+            ice.faceLeft();
+            ice.setxCoord(ice.getxCoord()-5); ice.faceLeft();
+        }
+    }
         //PLAYER CLICKS U
         if (pressedKeys[85] && healthpot>=1 && hp<3) {
-
             healthpot--;
             hp++;
             repaint();
         }
-
         if (!player.playerRect().intersects(rect3)) {
             DO=true;
             try{
@@ -507,15 +467,11 @@ if (iced) {
                 System.out.println(e.getMessage());
             }
         }
-
-
         if (player.playerRect().intersects(rect3)) {
-            if (!bossroom && !show1 && scene ==  2) {
+            if (!bossroom  && scene ==  2) {
                 g.drawImage(word3, slotx, 700, null);
             }
-
             if (pressedKeys[69]) {
-
                 if (DO) {
                     if (!(count>=5)) {
                         try{
@@ -553,25 +509,17 @@ if (iced) {
                 DO=false;
             }
         }
-
-        if (player.playerRect().intersects(rect)) {
-            if (!bossroom && scene == 1)  {
-                g.drawImage(word,signx-175,800,null); }
-        }
         if (player.playerRect().intersects(rect2)) {
             if (!bossroom && scene == 3){
                 g.drawImage(word2,signx2-150,700,null); }
-
             if (pressedKeys[69]) {
                 bossroom=true;
                 slime.setxCoord(9999999);
                 player.setxCoord(50);
                 boss.setxCoord(1000);
-                bckgX=0;
             }
         }
         g.drawImage(control,1550,50,null);
-
         requestFocusInWindow();
 
 
@@ -651,22 +599,20 @@ if (e.getSource() == de && h) {
             if (pressedKeys[81]) {
                 if (player.isfacingright()) {
                     for (int i=0; i<15; i++) {
-                player.moveRight(); }
-                dash=true;
+                        player.moveRight();
+                    }
+                    dash=true;
                 }
                 if (!player.isfacingright()) {
                     for (int i=0; i<15; i++) {
-                        player.moveLeft(); }
+                        player.moveLeft();
+                    }
                     dash=true;
                 }
             }
         }
-
-
-
         repaint();
     }
-
     // KeyListener interface methods
     @Override
     public void keyTyped(KeyEvent e) { } // unimplemented
@@ -675,7 +621,6 @@ if (e.getSource() == de && h) {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         pressedKeys[key] = true;
-
     }
 
     @Override
@@ -683,16 +628,11 @@ if (e.getSource() == de && h) {
         int key = e.getKeyCode();
         pressedKeys[key] = false;
     }
-
-
     // MouseListener interface methods
     @Override
     public void mouseClicked(MouseEvent e) { }
-
-
     @Override
     public void mousePressed(MouseEvent e) { }
-
     @Override
     public void mouseReleased(MouseEvent e) {
         if (!over) {
@@ -709,10 +649,9 @@ if (e.getSource() == de && h) {
                     animationPlaying = true;
                 }
             }
-        }}
+        }
     }
-
-
+}
     @Override
     public void mouseEntered(MouseEvent e) { } // unimplemented
 
