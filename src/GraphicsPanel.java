@@ -20,12 +20,15 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage hut;
     private BufferedImage heart;
     private int witchX;
+    private Timer timer5;
     private BufferedImage gameover;
     private int bckgX;
     private boolean over;
     private BufferedImage control;
     private BufferedImage word4;
+    private boolean right;
     private int count;
+    private projectile ice;
     private BufferedImage slimekilled;
     private BufferedImage talk1;
     private BufferedImage talk3;
@@ -38,6 +41,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private boolean show;
     private BufferedImage pot;
     private boolean h;
+    private boolean iced;
     private Rectangle rect4;
     private int count1;
     private boolean talk4;
@@ -88,6 +92,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         scene = 1;
         npc = new Npc();
         slimeHp = 2;
+        ice=new projectile();
+        ice.faceRight();
         npc.faceRight();
         animationPlaying = false;
 
@@ -98,6 +104,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         healthpot=0;
         hp=3;
         count1=0;
+        timer5=new Timer(50,this);
         witchX=1150;
         text=new JTextField("0 Gold",10);
         attackAnimationTimer = new Timer(1105, this); // delete this
@@ -114,6 +121,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         timer = new Timer(2, this);
         timer2=new Timer(2500,this);
         timer2.start();
+        timer.start();
         timer.start();
         deas.start();
         timer3= new Timer(500,this);
@@ -305,11 +313,16 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }
 
 
+
         if (!player.isfacingright() && !boss.isfacingright()) {
             boss.moveRight();
         }
 if (dash) {
-    g.drawImage(dashe,player.getxCoord()-50,875,null);
+    if (player.isfacingright()) {
+    g.drawImage(dashe,player.getxCoord()-50,875,null); }
+    if (!player.isfacingright()){
+    g.drawImage(dashe,player.getxCoord()-100,875,null);
+    }
 }
         if (Math.abs(player.getxCoord()-boss.getxCoord())<700)  {
             move=true;
@@ -382,7 +395,9 @@ if (accept) {
 
              } }
 
-        } }
+        }
+        dash=false;
+        }
         // player moves right (D)
         if (pressedKeys[68]) {
             player.faceRight();
@@ -432,11 +447,39 @@ dash=false;
 
             }
         }
+if (slime.playerRect().intersects(ice.playerRect())) {
+    slimeDeathTimer.start();
+    slime.death();
+    iced=false;
+    if(player.isfacingright()) {
+    ice.setxCoord(player.getxCoord()+75); }
+    if (!player.isfacingright()) {
+        ice.setxCoord(player.getxCoord()-75);
+    }
 
+}
+if (!iced) {
+        if (pressedKeys[82]) {
+            iced=true;
+            right=player.isfacingright();
+}  }
 
-
-
-
+if (ice.getxCoord()<0 || ice.getxCoord()>1920) {
+    iced=false;
+    right=player.isfacingright();
+    if(player.isfacingright()) {
+        ice.faceRight();
+        ice.setxCoord(player.getxCoord()+75); }
+    if (!player.isfacingright()) {
+        ice.faceLeft();
+        ice.setxCoord(player.getxCoord()-75);
+    }
+}
+if (iced) {
+    g.drawImage(ice.getPlayerImage(), ice.getxCoord(), ice.getyCoord(), ice.getWidth(), ice.getHeight(), null);
+    if (right) {ice.setxCoord(ice.getxCoord()+5); }
+    if (!right) {ice.setxCoord(ice.getxCoord()-5); ice.faceLeft();
+} }
         //PLAYER CLICKS U
         if (pressedKeys[85] && healthpot>=1 && hp<3) {
 
@@ -596,11 +639,20 @@ if (e.getSource() == de && h) {
         if (e.getSource()==timer3) {
             if (pressedKeys[81]) {
                 if (player.isfacingright()) {
-                player.setxCoord(player.getxCoord()+50);
+                    for (int i=0; i<15; i++) {
+                player.moveRight(); }
                 dash=true;
+                }
+                if (!player.isfacingright()) {
+                    for (int i=0; i<15; i++) {
+                        player.moveLeft(); }
+                    dash=true;
                 }
             }
         }
+
+
+
         repaint();
     }
 
