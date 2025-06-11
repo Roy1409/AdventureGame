@@ -598,6 +598,7 @@ if (pressedKeys!=null)  {
 
 
         if (e.getSource()==timer2) {
+            if (scene==1) {
             if (slime.playerRect().intersects(player.playerRect())) {
                 slime.setMOVE_AMT(0);
                 slime.attack();
@@ -614,7 +615,7 @@ if (pressedKeys!=null)  {
                         }
                     }
 
-                }
+                }}
 
             }else {
                 player.hit(false);
