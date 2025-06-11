@@ -234,6 +234,9 @@ public class character {
         if (smash) {
             if (smashing.getCurrentFrameIndex() >= 8 && smashing.getCurrentFrameIndex() <= 13) { // fix here
                 yCoord = 750;
+
+            } else if (smashing.getCurrentFrameIndex() >= 14) {
+                yCoord = 900;
             }else {
                 yCoord = 900;
             }
@@ -256,7 +259,9 @@ public class character {
         return rect;
     }
 
-    public void setxCoord(int x){}
+    public void setxCoord(int x){
+        xCoord = x;
+    }
 
     public void setyCoord(int y) {
         yCoord = y;
