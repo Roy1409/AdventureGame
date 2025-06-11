@@ -664,7 +664,7 @@ if (e.getSource()==de) {
             hp++;
         }
 
-if (e.getSource()==o) {
+if (e.getSource()==de) {
     if (h) {
         h=false;
         slime.revive();
