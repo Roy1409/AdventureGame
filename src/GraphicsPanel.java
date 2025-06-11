@@ -166,7 +166,12 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         if (bossroom)  {
             g.drawImage(bossrooms,0,0,null);
         }
-
+        if (!accept) {
+            slimecount=0;
+        }
+        rect2 = new Rectangle(signx2, 800, 155, 200);
+        rect3=new Rectangle(slotx,750,172,250);
+        rect4=new Rectangle(450,775,196,216);
         if (!bossroom && !over) {
             g.drawImage(b0, 20, -470, null);
             if (scene == 1) {
@@ -692,6 +697,13 @@ if (e.getSource()==de) {
             player.setAttacking(false);
             player.idle();
             attackAnimationTimer.stop();
+            animationPlaying = false;
+        }
+        if (e.getSource() == smashAnimationTimer) {
+            player.setSmash(false);
+            player.setyCoord(900);
+            player.idle();
+            smashAnimationTimer.stop();
             animationPlaying = false;
         }
 
