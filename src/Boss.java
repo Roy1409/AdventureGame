@@ -55,7 +55,7 @@ public class Boss {
                 System.out.println(e.getMessage());
             }
         }
-        ArrayList<BufferedImage> attack =new ArrayList<>();
+/*        ArrayList<BufferedImage> attack =new ArrayList<>();
         for (int i=0; i<4; i++) {
             String filename = "src\\images\\dattack"+ i + ".png";
             try {
@@ -81,12 +81,12 @@ public class Boss {
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-        }
+        }*/
         animation = new Animation(walk, 450);
         idle = new Animation(images, 100);
-        getHit =new Animation(hit,50);
+   /*     getHit =new Animation(hit,50);
         attacking = new Animation(attack, 100 );
-        death = new Animation(dying, 100);
+        death = new Animation(dying, 100);*/
 
     }
 
