@@ -237,9 +237,7 @@ public class character {
             }
             return smashing.getActiveFrame();
         }
-
         if (isHit) {
-            hit.resetCurrentFrame();
             return hit.getActiveFrame();
         }
         if (!isIdle) {

@@ -244,10 +244,10 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                 if (Math.abs(player.getxCoord() - boss.getxCoord()) < 600) {
                     boss.setMOVE_AMT(4);
                     if (player.getxCoord() - 20 > boss.getxCoord()) {
-                        boss.faceRight();
+                        boss.faceLeft();
                         boss.moveRight();
                     } else {
-                        boss.faceLeft();
+                        boss.faceRight();
                         boss.moveLeft();
                     }
                 } else {
@@ -353,7 +353,8 @@ if (dash) {
                  scene=2;
                  player.setxCoord(1900);
 
-             } }
+             }
+            }
 
         } }
         // player moves right (D)
@@ -518,9 +519,9 @@ dash=false;
                     hp--; }
                     if (player.isHit()) {
                         if (slime.isfacingright()) {
-                            player.setxCoord(player.getxCoord() - 20);
+                            player.setxCoord(player.getxCoord() - 40);
                         } else {
-                            player.setxCoord(player.getxCoord() + 20);
+                            player.setxCoord(player.getxCoord() + 40);
                         }
                     }
 
