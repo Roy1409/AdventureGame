@@ -213,6 +213,7 @@ public boolean getHit(){
     }
 
     public void death() {
+        death.resetCurrentFrame();
         dead=true;
     }
 

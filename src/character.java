@@ -161,7 +161,6 @@ public class character {
         isIdle = false;
         if (yCoord == 900) {
             jumping = false;
-            attack = false;
             smash = false;
         }
     }
@@ -173,35 +172,34 @@ public class character {
             if (yCoord == 900) {
                 isIdle = false;
                 jumping = false;
-                attack = false;
                 smash = false;
             }
         }
     }
 
-
-    public void moveUp() {
-        if (yCoord == 900) {
-            yCoord -= 100;
-            isIdle = false;
-            jumping = true;
-            attack = false;
-            smash = false;
-
-        }
-    }
-
-    public void moveDown() {
-        if (yCoord + MOVE_AMT <= 900) {
-            yCoord += MOVE_AMT;
-            if (yCoord == 900) {
-                isIdle = false;
-                jumping = false;
-                attack = false;
-                smash = false;
-            }
-        }
-    }
+// dont need this i think
+//    public void moveUp() {
+//        if (yCoord == 900) {
+//            yCoord -= 100;
+//            isIdle = false;
+//            jumping = true;
+//            attack = false;
+//            smash = false;
+//
+//        }
+//    }
+//
+//    public void moveDown() {
+//        if (yCoord + MOVE_AMT <= 900) {
+//            yCoord += MOVE_AMT;
+//            if (yCoord == 900) {
+//                isIdle = false;
+//                jumping = false;
+//                attack = false;
+//                smash = false;
+//            }
+//        }
+//    }
 
     public void attack() {
         if (!isattacking()) {
@@ -226,12 +224,6 @@ public class character {
     }
 
     public BufferedImage getPlayerImage() {
-        if (!isIdle) {
-            return animation.getActiveFrame();
-        }
- /*   if (jumping) {
-        return jump.getActiveFrame();
-    }*/
         if (attack) {
             return attacking.getActiveFrame();
 
@@ -250,7 +242,9 @@ public class character {
             hit.resetCurrentFrame();
             return hit.getActiveFrame();
         }
-
+        if (!isIdle) {
+            return animation.getActiveFrame();
+        }
 
         return idle.getActiveFrame();
 

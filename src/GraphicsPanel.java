@@ -82,6 +82,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Timer de;
     private boolean dash;
     private int slimeHp;
+    private BufferedImage[] slimeDeathImages;
 
 
     public GraphicsPanel() {
@@ -90,7 +91,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         slimeHp = 2;
         npc.faceRight();
         animationPlaying = false;
-
+        slimeDeathImages = new BufferedImage[5];
         bossroom=false; //edit
         slotx=850;
         signx2=1600;
@@ -152,6 +153,10 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             heart = ImageIO.read(new File("src\\images\\heart.png"));
             talk1= ImageIO.read(new File("src\\images\\talk1.png"));
             talk3=ImageIO.read(new File("src\\images\\talk3.png"));
+            for (int i = 0; i < slimeDeathImages.length; i++) {
+                    slimeDeathImages[i] = ImageIO.read(new File("src\\images\\slimekilled" + (i + 1) + ".png"));
+            }
+
         }catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -170,7 +175,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             if (scene == 1) {
                 player.setWalkLimitR(0, 1930);
                 g.drawImage(npc.getPlayerImage(), npc.getxCoord(), npc.getyCoord(), npc.getWidth(), npc.getHeight(), null);
-
 
                 if (!h){
             g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
@@ -325,7 +329,7 @@ if (dash) {
     g.drawImage(dashe,player.getxCoord()-50,875,null);
 }
 
-        if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69] || !pressedKeys[83]) {
+        if (!pressedKeys[65]&& !pressedKeys[68] && !pressedKeys[87]&& !pressedKeys[69] && !pressedKeys[83]) {
             player.idle();
         }
 
@@ -333,41 +337,9 @@ if (dash) {
             over=true;
             g.drawImage(gameover,0,0,null);
         }
-if (accept) {
-    g.drawImage(slimekilled,350,75,null);
-    if (slimecount==0) {
-        try {
-            slimekilled=ImageIO.read(new File("src\\images\\slimekilled1.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (accept){
+            g.drawImage(slimeDeathImages[slimecount], 350, 75, null);
         }
-    }
-    if (slimecount==1) {
-        try {
-            slimekilled=ImageIO.read(new File("src\\images\\slimekilled2.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }    else if(slimecount==2) {
-        try {
-            slimekilled=ImageIO.read(new File("src\\images\\slimekilled3.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }    else if(slimecount==3) {
-        try {
-            slimekilled=ImageIO.read(new File("src\\images\\slimekilled4.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }    else if(slimecount==4) {
-        try {
-            slimekilled=ImageIO.read(new File("src\\images\\slimekilled5.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-}
         if (pressedKeys[65]) {
             player.faceLeft();
             player.moveLeft();
@@ -395,9 +367,6 @@ if (accept) {
             }
 dash=false;
         }
-
-
-
 
         if (!bossroom) {
             if (pressedKeys[69]) {
@@ -427,10 +396,8 @@ dash=false;
             }
 
             if (player.isattacking() || player.isSmash()) {
-
                     slimeDeathTimer.start();
                     slime.death();
-
             }
         }
 
@@ -460,9 +427,7 @@ dash=false;
             if (!bossroom && !show1 && scene ==  2) {
                 g.drawImage(word3, slotx, 700, null);
             }
-
             if (pressedKeys[69]) {
-
                 if (DO) {
                     if (!(count>=5)) {
                         try{
