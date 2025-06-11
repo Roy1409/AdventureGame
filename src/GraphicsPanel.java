@@ -51,7 +51,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Rectangle rect2;
     private BufferedImage word2;
     private boolean bossroom;
-    private BufferedImage dashe;
     private Timer timer3;
     private int bosshp;
     private BufferedImage door;
@@ -138,7 +137,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         try{
             bossrooms=ImageIO.read(new File("src\\images\\p.png"));
             youwin=ImageIO.read(new File("src\\images\\youwin.jpg"));
-            dashe=ImageIO.read(new File("src\\images\\dash.png"));
             control=ImageIO.read(new File("src\\images\\controls.png"));
             gameover=ImageIO.read(new File("src\\images\\gameover.jpg"));
             slimekilled=ImageIO.read(new File("src\\images\\slimekilled1.png"));
@@ -353,21 +351,7 @@ if (pressedKeys[69]) {
         }
     }
 
-        // player moves right (D)
 
-
-
-
-        //PLAYER CLICKS U
-
-
-        if (dash) {
-            if (player.isfacingright()) {
-                g.drawImage(dashe,player.getxCoord()-50,875,null); }
-            if (!player.isfacingright()){
-                g.drawImage(dashe,player.getxCoord()-100,875,null);
-            }
-        }
 
         if (player.playerRect().intersects(rect3)) {
             if (!bossroom  && scene ==  2) {
@@ -499,20 +483,22 @@ if (pressedKeys!=null)  {
 
 
     if (iced) {
-        if (boss.playerRect().intersects(ice.playerRect())) {
-            bosshp--;
-            iced = false;
-        } else if (slime.playerRect().intersects(ice.playerRect())) {
-            slimeDeathTimer.start();
-            slime.death();
-            iced = false;
-            if (player.isfacingright()) {
-                ice.setxCoord(player.getxCoord() + 75);
+        if ( (Math.abs(player.getxCoord()-boss.getxCoord())<700)) {
+            if (boss.playerRect().intersects(ice.playerRect())) {
+                bosshp--;
+                iced = false;
+            } }
+        if (slime.playerRect().intersects(ice.playerRect())) {
+                slimeDeathTimer.start();
+                slime.death();
+                iced = false;
+                if (player.isfacingright()) {
+                    ice.setxCoord(player.getxCoord() + 75);
+                }
+                if (!player.isfacingright()) {
+                    ice.setxCoord(player.getxCoord() - 75);
+                }
             }
-            if (!player.isfacingright()) {
-                ice.setxCoord(player.getxCoord() - 75);
-            }
-        }
 
         if (right) {
             ice.faceRight();
@@ -577,7 +563,6 @@ if (pressedKeys!=null)  {
                 }
 
             }
-            dash=false;
         }
 
         if (!player.isfacingright() && !boss.isfacingright()) {
@@ -720,7 +705,6 @@ if (e.getSource()==de) {
                     }
                 }
             }
-            dash=false;
         }}
         repaint();
     }
