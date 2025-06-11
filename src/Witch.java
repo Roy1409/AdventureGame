@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class earth extends Character {
+public class Witch {
     private final int MOVE_AMT = 3;
     private BufferedImage right;
     private boolean facingRight;
@@ -16,27 +16,27 @@ public class earth extends Character {
     private Animation animation;
     private Animation idle;
     private Animation jump;
-    private boolean y;
+    private Animation attacking;
+    private boolean isIdle;
+    private boolean jumping;
+    private boolean attack;
 
 
-
-    public earth() {
+    public Witch() {
         facingRight = true;
-        xCoord = 50; // starting position is (50, 435), right on top of ground
-        yCoord = 435;
+        xCoord = 1350;
+        yCoord = 855;
         score = 0;
         try {
-            right = ImageIO.read(new File("src\\images\\eidle_1.png"));
+            right = ImageIO.read(new File("src\\images\\witch0.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
 
-        //The code below is used to create an ArrayList of BufferedImages to use for an Animation object
-        //By creating all the BufferedImages beforehand, we don't have to worry about lagging trying to read image files during gameplay
         ArrayList<BufferedImage> images = new ArrayList<>();
-        for (int i = 1; i < 9; i++) {
-            String filename = "src\\images\\erun_" + i + ".png";
+        for (int i = 0; i < 6; i++) {
+            String filename = "src\\images\\witch" + i + ".png";
             try {
                 images.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
@@ -46,30 +46,26 @@ public class earth extends Character {
 
 
 
-
-        ArrayList<BufferedImage> x = new ArrayList<>();
-
-
-        for (int i = 1; i < 6; i++) {
-            String filename = "src\\images\\eidle_" + i + ".png";
+        /*ArrayList<BufferedImage> jumps=new ArrayList<>();
+        for (int i=1; i<4; i++) {
+            String filename = "src\\images\\wj_up_"+ i + ".png";
             try {
-                x.add(ImageIO.read(new File(filename)));
+                jumps.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
 
+         */
 
 
-        animation = new Animation(images, 50);
-        idle = new Animation(x, 50);
+        animation = new Animation(images, 150);
+
+        /* jump= new Animation(jumps,100);*/
     }
+
     public int getxCoord() {
-        if (facingRight) {
             return xCoord;
-        } else {
-            return (xCoord + (getPlayerImage().getWidth()));
-        }
     }
 
     public int getyCoord() {
@@ -85,11 +81,7 @@ public class earth extends Character {
     }
 
     public int getWidth() {
-        if (facingRight) {
-            return getPlayerImage().getWidth();
-        } else {
-            return getPlayerImage().getWidth() * -1;
-        }
+        return getPlayerImage().getWidth();
     }
 
     public void faceRight() {
@@ -108,37 +100,24 @@ public class earth extends Character {
         }
     }
 
-    public void moveRight() {
-        if (xCoord + MOVE_AMT <= 920) {
-            xCoord += MOVE_AMT;
-            y=false;
-        }
-    }
-
-    public void moveLeft() {
-        if (xCoord - MOVE_AMT >= 0) {
-            xCoord -= MOVE_AMT;
-            y=false;
-        }
-    }
 
 
-    public void moveUp() {
-            y=false;
-
-    }
-
-    public void moveDown() {
-        if (yCoord + MOVE_AMT <= 435) {
-            yCoord += MOVE_AMT;
-            y=false;
-        }
+    public void attack() {
+        attack = true;
     }
 
     public BufferedImage getPlayerImage() {
-        if (!y) {
-            return animation.getActiveFrame(); }
+        if (!isIdle) {
+            return animation.getActiveFrame();
+        }
+     /*   if (jumping) {
+            return jump.getActiveFrame();
+        }*/
+        if (attack) {
+            return attacking.getActiveFrame();
+        }
         return idle.getActiveFrame();
+
     }
 
     public Rectangle playerRect() {
@@ -148,7 +127,8 @@ public class earth extends Character {
         return rect;
     }
 
-    public void idle() {
-        y=true;
+    public void setxCoord(int x) {
+        xCoord=x;
     }
+
 }

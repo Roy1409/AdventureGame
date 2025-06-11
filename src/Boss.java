@@ -4,9 +4,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 
-public class water {
+public class Boss {
     private final int MOVE_AMT = 3;
     private BufferedImage right;
     private boolean facingRight;
@@ -14,29 +15,30 @@ public class water {
     private int yCoord;
     private int score;
     private Animation animation;
+    private Animation death;
     private Animation idle;
     private Animation jump;
     private Animation attacking;
     private boolean y;
     private boolean jumping;
     private boolean attack;
+    private boolean dead;
 
 
-    public water() {
-        facingRight = true;
-        xCoord = 50;
-        yCoord = 435;
-        score = 0;
-        try {
-            right = ImageIO.read(new File("src\\images\\widle1.png"));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+    public Boss() {
+        facingRight = false;
+        xCoord = 3000;
+        yCoord = 550;
+//        try {
+//            right = ImageIO.read(new File("src\\images\\widle1.png"));
+//        } catch (IOException e) {
+//            System.out.println(e.getMessage());
+//        }
 
 
         ArrayList<BufferedImage> images = new ArrayList<>();
-        for (int i = 1; i < 11; i++) {
-            String filename = "src\\images\\wwalk_"+ i + ".png";
+        for (int i = 0; i < 6; i++) {
+            String filename = "src\\images\\didle"+ i + ".png";
             try {
                 images.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
@@ -44,9 +46,10 @@ public class water {
             }
         }
 
-        ArrayList<BufferedImage> x = new ArrayList<>();
 
+        /*    ArrayList<BufferedImage> x = new ArrayList<>();*/
 
+/*
         for (int i = 1; i < 9; i++) {
             String filename = "src\\images\\widle_" + i + ".png";
             try {
@@ -54,19 +57,11 @@ public class water {
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-        }
-        ArrayList<BufferedImage> jumps=new ArrayList<>();
-        for (int i=1; i<4; i++) {
-            String filename = "src\\images\\wj_up_"+ i + ".png";
-            try {
-                jumps.add(ImageIO.read(new File(filename)));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        }*/
+
         ArrayList<BufferedImage> attk=new ArrayList<>();
-        for (int i=1; i<28; i++) {
-            String filename = "src\\images\\w3_atk_"+ i + ".png";
+        for (int i=0; i<15; i++) {
+            String filename = "src\\images\\da"+ i + ".png";
             try {
                 attk.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
@@ -74,11 +69,9 @@ public class water {
             }
         }
 
-
-
-        animation = new Animation(images, 100);
-        idle = new Animation(x, 100);
-        jump= new Animation(jumps,100);
+        animation = new Animation(images, 450);
+        /*  idle = new Animation(x, 100);*/
+       /* jump= new Animation(jumps,100);*/
         attacking=new Animation(attk,50);
     }
 
@@ -127,28 +120,29 @@ public class water {
     }
 
     public void moveRight() {
-        if (xCoord + MOVE_AMT <= 920) {
-            xCoord += MOVE_AMT;
-            if (yCoord == 435) {
+        if (xCoord + 3 <= 2000) {
+            xCoord += 4;
+            if (yCoord == 925) {
                 y = false;
+
                 jumping = false;
                 attack=false;
             }}}
 
 
     public void moveLeft() {
-        if (xCoord - MOVE_AMT >= 0) {
-            xCoord -= MOVE_AMT;
-            if (yCoord==435) {
+        if (xCoord - 3 >= 0) {
+            xCoord -= 4;
+            if (yCoord==925) {
                 y=false;
                 jumping=false;
                 attack=false;
             }
-    }}
+        }}
 
 
     public void moveUp() {
-        if (yCoord==435) {
+        if (yCoord==925) {
             yCoord -= 100;
             y=false;
             jumping=true;
@@ -157,11 +151,11 @@ public class water {
     }
 
     public void moveDown() {
-        if (yCoord + MOVE_AMT <= 435) {
+        if (yCoord + MOVE_AMT <= 925) {
             yCoord += MOVE_AMT;
             if (yCoord==435) {
-            y=false;
-            jumping=false;
+                y=false;
+                jumping=false;
                 attack=false;
             }  }
     }
@@ -171,15 +165,11 @@ public class water {
     }
 
     public BufferedImage getPlayerImage() {
-        if (!y) {
-            return animation.getActiveFrame(); }
-        if (jumping) {
-            return jump.getActiveFrame();
-        }
-        if (attack){
-            return attacking.getActiveFrame();
-        }
-        return idle.getActiveFrame();
+            if (!attack) {
+            return animation.getActiveFrame(); }else{
+                return attacking.getActiveFrame();
+            }
+        //return death.getActiveFrame();
     }
 
     public Rectangle playerRect() {
@@ -200,4 +190,31 @@ public class water {
     public void fall() {
         yCoord++;
     }
+
+    public void setxCoord(int x) {
+        xCoord=x;
+    }
+
+    public void death() {
+        dead=true;
+    }
+
+    public boolean isdead() {
+        return dead;
+    }
+    public void setdead(boolean x) {
+        dead=x;
+    }
+
+    public boolean isattack() {
+        return attack;
+    }
+
+    public boolean isfacingright(){
+        return facingRight;
+    }
+
+    public void setAttacking(boolean x) {    attack=x;
+    }
+
 }
