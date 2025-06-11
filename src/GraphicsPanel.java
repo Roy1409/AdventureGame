@@ -73,9 +73,12 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private BufferedImage death;
     private Timer de;
     private boolean dash;
+    private int slimePause;
 
 
     public GraphicsPanel() {
+        slimePause = 0;
+        moveunlocked = true;
         scene = 1;
         npc = new Npc();
         bosshp=250;
@@ -173,8 +176,13 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         if (!bossroom && !over) {
             g.drawImage(b0, 20, -470, null);
             if (scene == 1) {
+
+                if (!h){
+            g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
+        }
+            } else if (scene == 2) {
                 if (talked) {
-                    g.drawImage(word4, 400, 700, null);
+                    g.drawImage(word4, 500, 850, null);
                 }
                 player.setWalkLimitR(0, 1930);
                 g.drawImage(npc.getPlayerImage(), npc.getxCoord(), npc.getyCoord(), npc.getWidth(), npc.getHeight(), null);
@@ -293,17 +301,23 @@ if (pressedKeys[69]) {
                     slime.moveLeft();
                 }
             } else {
+                if (slimePause <= 0){
                 slime.setMOVE_AMT(2);
                 if (slime.isfacingright()) {
                     slime.moveRight();
                     if (slime.getxCoord() >= 1600) {
                         slime.faceLeft();
+                        slimePause = 50;
                     }
                 } else {
                     slime.moveLeft();
                     if (slime.getxCoord() <= 1300) {
                         slime.faceRight();
+                        slimePause = 50;
                     }
+                }
+            } else {
+                    slimePause--;
                 }
             }
         }
