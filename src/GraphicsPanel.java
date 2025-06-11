@@ -87,7 +87,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         slotx=850;
         signx2=1600;
         healthpot=0;
-        o = new Timer(5000,null);
+        o = new Timer(2500,this);
         o.start();
         hp=3;
         setDoubleBuffered(true);
@@ -327,9 +327,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                 boss.faceRight();
             }
         }
-        if (Math.abs(player.getxCoord()- boss.getxCoord())<300) {
-            boss.setAttacking(true);
-        }
+
         if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69] || !pressedKeys[83]) {
             player.idle();
         }
@@ -606,6 +604,20 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 if (e.getSource()==deas && slime.isdead()) {
     h=true;
 }
+if (e.getSource()==o) {
+   if (Math.abs(player.getxCoord()- boss.getxCoord())<300) {
+        boss.setAttacking(true);
+       hp--;
+    }
+
+}
+
+if (e.getSource()==de) {
+    boss.setAttacking(false);
+}
+
+
+
 if (e.getSource() == de && h) {
     h=false;
     slime.revive();
@@ -617,9 +629,6 @@ if (e.getSource() == de && h) {
         slimecount=0;
         count+=25;
    }
-}
-if (e.getSource()==de && boss.isattack())  {
-    hp--;
 }
         if (e.getSource() == attackAnimationTimer) {
             player.setAttacking(false);

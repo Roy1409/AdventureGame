@@ -72,7 +72,7 @@ public class Boss {
         animation = new Animation(images, 450);
         /*  idle = new Animation(x, 100);*/
         /* jump= new Animation(jumps,100);*/
-        attacking=new Animation(attk,50);
+        attacking=new Animation(attk,66);
     }
 
     public int getxCoord() {
