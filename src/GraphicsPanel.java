@@ -180,9 +180,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                 if (!h){
             g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
         }
-            } else if (scene == 2) {
                 if (talked) {
-                    g.drawImage(word4, 500, 850, null);
+                    g.drawImage(word4, 500, 700, null);
                 }
                 player.setWalkLimitR(0, 1930);
                 g.drawImage(npc.getPlayerImage(), npc.getxCoord(), npc.getyCoord(), npc.getWidth(), npc.getHeight(), null);
@@ -665,7 +664,7 @@ if (e.getSource()==de) {
             hp++;
         }
 
-if (e.getSource()==de) {
+if (e.getSource()==o) {
     if (h) {
         h=false;
         slime.revive();
