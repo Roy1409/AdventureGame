@@ -26,6 +26,10 @@ public class Animation implements ActionListener {
         }
     }
 
+public void resetCurrentFrame(){
+        currentFrame = 0;
+}
+
     public int getCurrentFrameIndex() {
         return currentFrame;
     }

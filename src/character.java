@@ -156,7 +156,7 @@ public class character {
 
     public void moveRight() {
         if (xCoord <= WalkLimitR) {
-            xCoord += 5;
+            xCoord += 3;
         }
         isIdle = false;
         if (yCoord == 900) {
@@ -169,7 +169,7 @@ public class character {
 
     public void moveLeft() {
         if (xCoord >= WalkLimitL) {// was - 3
-            xCoord -= 5;
+            xCoord -= 3;
             if (yCoord == 900) {
                 isIdle = false;
                 jumping = false;
@@ -205,12 +205,14 @@ public class character {
 
     public void attack() {
         if (!isattacking()) {
+            attacking.resetCurrentFrame();
             this.attack = true;
         }
     }
 
     public void smash() {
         if (!isSmash()) {
+            smashing.resetCurrentFrame();
             this.smash = true;
         }
     }
@@ -235,6 +237,7 @@ public class character {
 
         }
         if (smash) {
+            smashing.resetCurrentFrame();
             if (smashing.getCurrentFrameIndex() >= 9 && smashing.getCurrentFrameIndex() <= 16) { // fix here
                 yCoord = 800;
             } else {
@@ -244,6 +247,7 @@ public class character {
         }
 
         if (isHit) {
+            hit.resetCurrentFrame();
             return hit.getActiveFrame();
         }
 

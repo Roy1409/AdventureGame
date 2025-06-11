@@ -1,30 +1,26 @@
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageFilter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class Boss {
-    private final int MOVE_AMT = 3;
+    private int MOVE_AMT = 3;
     private BufferedImage right;
     private boolean facingRight;
     private int xCoord;
     private int yCoord;
-    private int score;
     private Animation animation;
     private Animation death;
     private Animation idle;
-    private Animation jump;
+    private Animation getHit;
     private Animation attacking;
-    private boolean y;
-    private boolean jumping;
+    private boolean isIdle;
     private boolean attack;
     private boolean dead;
-
+    private boolean isHit;
 
     public Boss() {
         facingRight = false;
@@ -48,40 +44,50 @@ public class Boss {
         }
 
 
-        /*    ArrayList<BufferedImage> x = new ArrayList<>();*/
+        ArrayList<BufferedImage> walk = new ArrayList<>();
 
-/*
-        for (int i = 1; i < 9; i++) {
-            String filename = "src\\images\\widle_" + i + ".png";
+
+        for (int i = 0; i < 12; i++) {
+            String filename = "src\\images\\dwalk" + i + ".png";
             try {
-                x.add(ImageIO.read(new File(filename)));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-        }*/
-        /*ArrayList<BufferedImage> jumps=new ArrayList<>();
-        for (int i=1; i<4; i++) {
-            String filename = "src\\images\\wj_up_"+ i + ".png";
-            try {
-                jumps.add(ImageIO.read(new File(filename)));
+                walk.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
-        ArrayList<BufferedImage> attk=new ArrayList<>();
-        for (int i=1; i<28; i++) {
-            String filename = "src\\images\\w3_atk_"+ i + ".png";
+        ArrayList<BufferedImage> attack =new ArrayList<>();
+        for (int i=0; i<4; i++) {
+            String filename = "src\\images\\dattack"+ i + ".png";
             try {
-                attk.add(ImageIO.read(new File(filename)));
+                attack.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
-*/
-        animation = new Animation(images, 450);
-        /*  idle = new Animation(x, 100);*/
-       /* jump= new Animation(jumps,100);
-        attacking=new Animation(attk,50);*/
+        ArrayList<BufferedImage> hit =new ArrayList<>();
+        for (int i=0; i<5; i++) {
+            String filename = "src\\images\\dhit"+ i + ".png";
+            try {
+                hit.add(ImageIO.read(new File(filename)));
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        ArrayList<BufferedImage> dying =new ArrayList<>();
+        for (int i=0; i<20; i++) {
+            String filename = "src\\images\\ddeath"+ i + ".png";
+            try {
+                dying.add(ImageIO.read(new File(filename)));
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        animation = new Animation(walk, 450);
+        idle = new Animation(images, 100);
+        getHit =new Animation(hit,50);
+        attacking = new Animation(attack, 100 );
+        death = new Animation(dying, 100);
+
     }
 
     public int getxCoord() {
@@ -96,9 +102,6 @@ public class Boss {
         return yCoord;
     }
 
-    public int getScore() {
-        return score;
-    }
 
     public int getHeight() {
         return getPlayerImage().getHeight();
@@ -130,54 +133,40 @@ public class Boss {
 
     public void moveRight() {
         if (xCoord + 3 <= 2000) {
-            xCoord += 4;
+            xCoord += MOVE_AMT;
             if (yCoord == 925) {
-                y = false;
-
-                jumping = false;
+                isIdle = false;
                 attack=false;
             }}}
 
 
     public void moveLeft() {
         if (xCoord - 3 >= 0) {
-            xCoord -= 4;
+            xCoord -= MOVE_AMT;
             if (yCoord==925) {
-                y=false;
-                jumping=false;
+                isIdle =false;
                 attack=false;
             }
         }}
-
-
-    public void moveUp() {
-        if (yCoord==925) {
-            yCoord -= 100;
-            y=false;
-            jumping=true;
-            attack=false;
-        }
-    }
-
-    public void moveDown() {
-        if (yCoord + MOVE_AMT <= 925) {
-            yCoord += MOVE_AMT;
-            if (yCoord==435) {
-                y=false;
-                jumping=false;
-                attack=false;
-            }  }
-    }
 
     public void attack() {
         attack=true;
     }
 
     public BufferedImage getPlayerImage() {
-//        if (!dead)
-            return animation.getActiveFrame();
-        //return death.getActiveFrame();
+        if (dead) {
+            return death.getActiveFrame();
+        } else if (attack) {
+            return attacking.getActiveFrame();
+        } else if (isIdle) {
+            return idle.getActiveFrame();
+        } else if (isHit) {
+            return getHit.getActiveFrame();
+        } else {
+            return animation.getActiveFrame(); //wlaking
+        }
     }
+
 
     public Rectangle playerRect() {
         int imageHeight = getPlayerImage().getHeight();
@@ -187,16 +176,9 @@ public class Boss {
     }
 
     public void idle() {
-        y=true;
+        isIdle =true;
     }
 
-    public void setJumping(boolean x){
-        jumping=x;
-    }
-
-    public void fall() {
-        yCoord++;
-    }
 
     public void setxCoord(int x) {
         xCoord=x;
@@ -215,5 +197,9 @@ public class Boss {
 
     public boolean isfacingright(){
         return facingRight;
+    }
+
+    public void setMOVE_AMT(int i) {
+        MOVE_AMT = i;
     }
 }
