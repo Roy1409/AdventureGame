@@ -76,6 +76,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
 
     public GraphicsPanel() {
+        moveunlocked = true;
         scene = 1;
         npc = new Npc();
         bosshp=100;
@@ -638,6 +639,7 @@ if (e.getSource() == de && h) {
         }
         if (e.getSource() == smashAnimationTimer) {
             player.setSmash(false);
+            player.setyCoord(900);
             player.idle();
             smashAnimationTimer.stop();
             animationPlaying = false;

@@ -158,11 +158,9 @@ public class character {
         if (xCoord <= WalkLimitR) {
             xCoord += 5;
         }
-        isIdle = false;
         if (yCoord == 900) {
+            isIdle = false;
             jumping = false;
-            attack = false;
-            smash = false;
         }
     }
 
@@ -173,43 +171,43 @@ public class character {
             if (yCoord == 900) {
                 isIdle = false;
                 jumping = false;
-                attack = false;
-                smash = false;
             }
         }
     }
 
 
-    public void moveUp() {
-        if (yCoord == 900) {
-            yCoord -= 100;
-            isIdle = false;
-            jumping = true;
-            attack = false;
-            smash = false;
-
-        }
-    }
-
-    public void moveDown() {
-        if (yCoord + MOVE_AMT <= 900) {
-            yCoord += MOVE_AMT;
-            if (yCoord == 900) {
-                isIdle = false;
-                jumping = false;
-                attack = false;
-                smash = false;
-            }
-        }
-    }
+//    public void moveUp() { irrelevant
+//        if (yCoord == 900) {
+//            yCoord -= 100;
+//            isIdle = false;
+//            jumping = true;
+//            attack = false;
+//            smash = false;
+//
+//        }
+//    }
+//
+//    public void moveDown() {
+//        if (yCoord + MOVE_AMT <= 900) {
+//            yCoord += MOVE_AMT;
+//            if (yCoord == 900) {
+//                isIdle = false;
+//                jumping = false;
+//                attack = false;
+//                smash = false;
+//            }
+//        }
+//    }
 
     public void attack() {
+        attacking.resetCurrentFrame();
         if (!isattacking()) {
             this.attack = true;
         }
     }
 
     public void smash() {
+        smashing.resetCurrentFrame();
         if (!isSmash()) {
             this.smash = true;
         }
@@ -232,12 +230,11 @@ public class character {
     }*/
         if (attack) {
             return attacking.getActiveFrame();
-
         }
         if (smash) {
-            if (smashing.getCurrentFrameIndex() >= 9 && smashing.getCurrentFrameIndex() <= 16) { // fix here
-                yCoord = 800;
-            } else {
+            if (smashing.getCurrentFrameIndex() >= 8 && smashing.getCurrentFrameIndex() <= 13) { // fix here
+                yCoord = 750;
+            }else {
                 yCoord = 900;
             }
             return smashing.getActiveFrame();
@@ -259,8 +256,10 @@ public class character {
         return rect;
     }
 
-    public void setxCoord(int x) {
-        xCoord = x;
+    public void setxCoord(int x){}
+
+    public void setyCoord(int y) {
+        yCoord = y;
     }
 
     public void idle() {
