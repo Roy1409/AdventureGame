@@ -5,6 +5,9 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class GraphicsPanel extends JPanel implements ActionListener, KeyListener, MouseListener {
     private Timer timer;
@@ -158,6 +161,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }catch (IOException e) {
             System.out.println(e.getMessage());
         }
+
+        playMusic();
     }
 
     @Override
@@ -765,6 +770,19 @@ if (e.getSource()==de) {
 }
     @Override
     public void mouseEntered(MouseEvent e) { } // unimplemented
+
+    private void playMusic() {
+        File audioFile = new File("src/music.wav");
+        try {
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY); // repeats song
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     @Override
     public void mouseExited(MouseEvent e) { } // unimplemented
