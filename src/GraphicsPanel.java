@@ -78,10 +78,10 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
 
     public GraphicsPanel() {
         slimePause = 0;
-        moveunlocked = true;
+        moveunlocked = false;
         scene = 1;
         npc = new Npc();
-        bosshp=250;
+        bosshp=350;
         ice=new projectile();
         ice.faceRight();
         npc.faceRight();
@@ -91,7 +91,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         signx2=1600;
         canAttack=true;
         healthpot=0;
-        o = new Timer(2500,this);
+        o = new Timer(1000,this);
         o.start();
         hp=3;
         setDoubleBuffered(true);
@@ -249,7 +249,7 @@ if (pressedKeys[69]) {
                 if (!player.playerRect().intersects(rect4)) {
                     talked = false;
                 }
-                if (player.playerRect().intersects(rect4)) {
+                if (talked&&player.playerRect().intersects(rect4)) {
                     if (pressedKeys[89]) {
                         accept = true;
 
@@ -653,8 +653,8 @@ if (e.getSource()==deas && slime.isdead()) {
 
 if (e.getSource()==de) {
    if (Math.abs(player.getxCoord()- boss.getxCoord())<300 && canAttack) {
-        boss.setAttacking(true);
        hp--;
+       boss.setAttacking(true);
        canAttack=false;
        o.start();
     }
