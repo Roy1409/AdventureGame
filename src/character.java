@@ -247,7 +247,6 @@ public class character {
             return hit.getActiveFrame();
         }
 
-
         return idle.getActiveFrame();
 
     }

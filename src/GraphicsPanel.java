@@ -175,6 +175,8 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         rect4=new Rectangle(450,775,196,216);
         if (!bossroom && !over) {
             g.drawImage(b0, 20, -470, null);
+            g.drawImage(b0, 500, -470, null);
+            g.drawImage(b0, -200, -470, null);
             if (scene == 1) {
 
                 if (!h){
@@ -592,7 +594,7 @@ if (pressedKeys!=null)  {
             }
         }
 
-        if (!pressedKeys[65] || !pressedKeys[68] || !pressedKeys[87] || !pressedKeys[69] || !pressedKeys[83]) {
+        if (!pressedKeys[65] && !pressedKeys[68] && !pressedKeys[87] && !pressedKeys[69] && !pressedKeys[83]) {
             player.idle();
         }
 
