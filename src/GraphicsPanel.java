@@ -101,7 +101,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         attackAnimationTimer.setRepeats(false);
         smashAnimationTimer = new Timer(1445, this); // edit this
         smashAnimationTimer.setRepeats(false);
-        count=100;
+        count=10;
         de= new Timer(2000,this);
         de.start();
         deas=new Timer(1000,this);
