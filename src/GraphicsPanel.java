@@ -81,7 +81,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         moveunlocked = false;
         scene = 1;
         npc = new Npc();
-        bosshp=275;
+        bosshp=240;
         ice=new projectile();
         ice.faceRight();
         npc.faceRight();
