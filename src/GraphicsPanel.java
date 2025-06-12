@@ -106,7 +106,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         de.start();
         deas=new Timer(1000,this);
         hitAnimationTimer = new Timer(200, this);
-        slimeDeathTimer = new Timer(200, this);
+        slimeDeathTimer = new Timer(50, this);
         hitAnimationTimer.setRepeats(false);
         timer = new Timer(2, this);
         timer2=new Timer(2500,this);
@@ -667,10 +667,10 @@ if (e.getSource()==de) {
 if (e.getSource()==de) {
     if (h) {
         h=false;
+        slimecount++;
         slime.revive();
         slimeDeathTimer.stop();
         slime.setxCoord(1700);
-        slimecount++;
         if(slimecount==5) {
             accept=false;
             slimecount=0;
