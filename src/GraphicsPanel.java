@@ -618,7 +618,7 @@ if (pressedKeys!=null)  {
                 if (!player.isattacking() && !player.isSmash()) {
                     player.hit(true);
                     hitAnimationTimer.start();
-                    if (!bossroom && !(scene==2 || scene==3)) {
+                    if (!slime.isdead() && !bossroom && !(scene==2 || scene==3)) {
                     hp--; }
                     if (player.isHit()) {
                         if (slime.isfacingright()) {
