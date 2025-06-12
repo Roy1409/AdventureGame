@@ -166,7 +166,8 @@ public class Boss {
 
     public BufferedImage getPlayerImage() {
         if (!attack) {
-            return animation.getActiveFrame(); }else{
+            return animation.getActiveFrame(); }
+        else{
             return attacking.getActiveFrame();
         }
         //return death.getActiveFrame();
