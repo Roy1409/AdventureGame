@@ -183,10 +183,6 @@ public class character {
     }
 
     public BufferedImage getPlayerImage() {
-        if (!isIdle) {
-            return animation.getActiveFrame();
-        }
-
         if (attack) {
             return attacking.getActiveFrame();
         }
@@ -205,7 +201,9 @@ public class character {
         if (isHit) {
             return hit.getActiveFrame();
         }
-
+        if (!isIdle) {
+            return animation.getActiveFrame();
+        }
         return idle.getActiveFrame();
 
     }

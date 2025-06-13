@@ -250,7 +250,6 @@ if (pressedKeys[69]) {
         }}
             if (hp>0) {
 
-
                 if (!player.playerRect().intersects(rect4)) {
                     talked = false;
                 }
