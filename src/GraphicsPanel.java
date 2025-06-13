@@ -79,6 +79,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private int slimePause;
 
 
+
     public GraphicsPanel() {
         slimePause = 0;
         moveunlocked = false;
@@ -183,7 +184,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             g.drawImage(b0, 500, -470, null);
             g.drawImage(b0, -200, -470, null);
             if (scene == 1) {
-
                 if (!h){
             g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
         }
@@ -208,21 +208,6 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                 else if (talk4) {
                     g.drawImage(talk5,witch.getxCoord(),775,null);
                 }
-                if (talk2 && pressedKeys[49] && count>=15) {
-                    if (!talk4) {
-                        healthpot++;
-                        count-=15;
-                        talk2=false;
-                        talk4=true;
-
-                    }  }
-                if (talk2 && pressedKeys[50] && count>=20) {
-                    if (!talk4) {
-                        moveunlocked=true;
-                        count-=15;
-                        talk2=false;
-                        talk4=true;
-                    }  }
                 g.drawImage(slot, slotx, 750, null);
                 g.drawImage(witch.getPlayerImage(), witch.getxCoord(), witch.getyCoord(), witch.getWidth(), witch.getHeight(), null);
             }
@@ -231,7 +216,22 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                 g.drawImage(door, signx2 - 100, 800, null);
             }
         }
+        if (talk2 && pressedKeys[49] && count>=15) {
+            if (!talk4) {
+                healthpot++;
+                count-=15;
+                talk2=false;
+                talk4=true;
 
+            }  }
+        if (talk2 && pressedKeys[50] && count>=20) {
+            if (!talk4) {
+                moveunlocked=true;
+                count-=15;
+                talk2=false;
+                talk4=true;
+            }
+        }
         text.setText(count + " Gold");
 
         if (healthpot==1) {
