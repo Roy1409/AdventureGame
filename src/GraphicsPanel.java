@@ -77,6 +77,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
     private Timer de;
     private boolean dash;
     private int slimePause;
+    private BufferedImage npcMark;
 
 
 
@@ -142,6 +143,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
         }
 
         try{
+            npcMark = ImageIO.read(new File("src\\images\\npcMark.png"));
             bossrooms=ImageIO.read(new File("src\\images\\p.png"));
             youwin=ImageIO.read(new File("src\\images\\youwin.jpg"));
             control=ImageIO.read(new File("src\\images\\controls.png"));
@@ -191,6 +193,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
                     g.drawImage(word4, 500, 700, null);
                 }
                 player.setWalkLimitR(0, 1930);
+                g.drawImage(npcMark, npc.getxCoord() + 65, npc.getyCoord() - 70, null);
                 g.drawImage(npc.getPlayerImage(), npc.getxCoord(), npc.getyCoord(), npc.getWidth(), npc.getHeight(), null);
                 if (!h){
             g.drawImage(slime.getPlayerImage(), slime.getxCoord(), slime.getyCoord(), slime.getWidth(), slime.getHeight(), null);
@@ -199,6 +202,7 @@ public class GraphicsPanel extends JPanel implements ActionListener, KeyListener
             else if (scene == 2) {
                 player.setWalkLimitR(-100, 1930);
                 g.drawImage(hut, witchX, 700, null);
+                g.drawImage(npcMark, witch.getxCoord() + 10, witch.getyCoord() - 70, null);
                 if (talk) {
                     g.drawImage(talk1,witch.getxCoord(),775,null);
                 } else if (talk2) {
@@ -298,6 +302,7 @@ if (pressedKeys[69]) {
         }
         if (!slime.isdead()) {
             if (Math.abs(player.getxCoord() - slime.getxCoord()) < 500) {
+                slime.setMOVE_AMT(3);
                 if (player.getxCoord() - 20 > slime.getxCoord()) {
                     slime.faceRight();
                     slime.moveRight();
@@ -680,7 +685,7 @@ if (e.getSource()==de) {
         if(slimecount==5) {
             accept=false;
             slimecount=0;
-            count+=25;
+            count+=30;
         }
     }
 
@@ -690,9 +695,6 @@ if (e.getSource()==de) {
         talk2=false;
         talk4=false;
     }
-
-
-
 }
 
 
@@ -773,11 +775,13 @@ if (e.getSource()==de) {
     private void playMusic() {
         File audioFile = new File("src/music.wav");
         try {
+            if (!bossroom){
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
             clip.loop(Clip.LOOP_CONTINUOUSLY); // repeats song
+                }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

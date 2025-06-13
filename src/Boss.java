@@ -16,7 +16,7 @@ public class Boss {
     private int score;
     private Animation animation;
     private Animation death;
-    private Animation idle;
+    private Animation walk;
     private Animation jump;
     private Animation attacking;
     private boolean y;
@@ -26,9 +26,10 @@ public class Boss {
 
 
     public Boss() {
+        y = true;
         facingRight = false;
         xCoord = 3000;
-        yCoord = 550;
+        yCoord = 570;
 //        try {
 //            right = ImageIO.read(new File("src\\images\\widle1.png"));
 //        } catch (IOException e) {
@@ -47,17 +48,15 @@ public class Boss {
         }
 
 
-        /*    ArrayList<BufferedImage> x = new ArrayList<>();*/
-
-/*
-        for (int i = 1; i < 9; i++) {
-            String filename = "src\\images\\widle_" + i + ".png";
+  ArrayList<BufferedImage> x = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            String filename = "src\\images\\dwalk" + i + ".png";
             try {
                 x.add(ImageIO.read(new File(filename)));
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-        }*/
+        }
 
         ArrayList<BufferedImage> attk=new ArrayList<>();
         for (int i=0; i<15; i++) {
@@ -70,7 +69,7 @@ public class Boss {
         }
 
         animation = new Animation(images, 450);
-        /*  idle = new Animation(x, 100);*/
+        walk = new Animation(x, 100);
         /* jump= new Animation(jumps,100);*/
         attacking=new Animation(attk,50);
     }
@@ -122,54 +121,38 @@ public class Boss {
     public void moveRight() {
         if (xCoord + 3 <= 2000) {
             xCoord += 4;
-            if (yCoord == 925) {
+            if (yCoord == 570) {
                 y = false;
-
                 jumping = false;
-                attack=false;
-            }}}
+            }
+        }
+    }
 
 
     public void moveLeft() {
         if (xCoord - 3 >= 0) {
             xCoord -= 4;
-            if (yCoord==925) {
+            if (yCoord==570) {
                 y=false;
                 jumping=false;
-                attack=false;
             }
         }}
 
 
-    public void moveUp() {
-        if (yCoord==925) {
-            yCoord -= 100;
-            y=false;
-            jumping=true;
-            attack=false;
-        }
-    }
-
-    public void moveDown() {
-        if (yCoord + MOVE_AMT <= 925) {
-            yCoord += MOVE_AMT;
-            if (yCoord==435) {
-                y=false;
-                jumping=false;
-                attack=false;
-            }  }
-    }
 
     public void attack() {
         attack=true;
     }
 
     public BufferedImage getPlayerImage() {
-        if (!attack) {
-            return animation.getActiveFrame(); }
-        else{
+        if (attack) {
             return attacking.getActiveFrame();
         }
+        if (!y) {
+            return walk.getActiveFrame();
+        }
+            return animation.getActiveFrame();
+
         //return death.getActiveFrame();
     }
 

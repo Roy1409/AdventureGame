@@ -210,7 +210,7 @@ public class character {
 
     public Rectangle playerRect() {
         int imageHeight = getPlayerImage().getHeight();
-        int imageWidth = getPlayerImage().getWidth();
+        int imageWidth = getPlayerImage().getWidth() + 50;
         Rectangle rect = new Rectangle(xCoord, yCoord, imageWidth, imageHeight);
         return rect;
     }
