@@ -19,14 +19,6 @@ public class Npc {
         facingRight = false;
         xCoord = 450;
         yCoord = 775;
-/*
-        try {
-            right = ImageIO.read(new File("src\\images\\widle1.png"));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-*/
-
 
         ArrayList<BufferedImage> images = new ArrayList<>();
         for (int i = 1; i < 9; i++) {
@@ -37,14 +29,8 @@ public class Npc {
                 System.out.println(e.getMessage());
             }
         }
-
-
-
         animation = new Animation(images, 100);
 
-    }
-    public void setMOVE_AMT(int x){
-        MOVE_AMT = x;
     }
     public int getxCoord() {
         return xCoord;
@@ -71,40 +57,7 @@ public class Npc {
         facingRight = true;
     }
 
-    public void faceLeft() {
-        facingRight = false;
-    }
-
-    public void turn() {
-        if (facingRight) {
-            faceLeft();
-        } else {
-            faceRight();
-        }
-    }
-
-    public void moveRight() {
-        if (xCoord + 3 <= 2000) {
-            xCoord += MOVE_AMT;
-
-            }
-        }
     public BufferedImage getPlayerImage() {
 
         return animation.getActiveFrame();
-    }
-
-
-
-    public Rectangle playerRect() {
-        int imageHeight = getPlayerImage().getHeight();
-        int imageWidth = getPlayerImage().getWidth();
-        Rectangle rect = new Rectangle(xCoord, yCoord, imageWidth, imageHeight);
-        return rect;
-    }
-
-
-    public boolean isfacingright(){
-        return facingRight;
-    }
-}
+    }}
