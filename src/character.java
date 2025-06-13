@@ -132,13 +132,6 @@ public class character {
         facingRight = false;
     }
 
-    public void turn() {
-        if (facingRight) {
-            faceLeft();
-        } else {
-            faceRight();
-        }
-    }
     public void setWalkLimitR(int left, int right){
         WalkLimitR = right;
         WalkLimitL = left;
@@ -193,9 +186,7 @@ public class character {
         if (!isIdle) {
             return animation.getActiveFrame();
         }
- /*   if (jumping) {
-        return jump.getActiveFrame();
-    }*/
+
         if (attack) {
             return attacking.getActiveFrame();
         }
