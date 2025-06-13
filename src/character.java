@@ -185,13 +185,9 @@ public class character {
     public BufferedImage getPlayerImage() {
         if (attack) {
             return attacking.getActiveFrame();
-        }
-        if (smash) {
-            if (smashing.getCurrentFrameIndex() >= 8 && smashing.getCurrentFrameIndex() <= 13) { // fix here
+        } else if (smash) {
+            if (smashing.getCurrentFrameIndex() >= 8 && smashing.getCurrentFrameIndex() <= 16) { // fix here
                 yCoord = 750;
-
-            } else if (smashing.getCurrentFrameIndex() >= 14) {
-                yCoord = 900;
             }else {
                 yCoord = 900;
             }
