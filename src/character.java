@@ -86,24 +86,14 @@ public class character {
                 System.out.println(e.getMessage());
             }
         }
-    /*ArrayList<BufferedImage> jumps=new ArrayList<>();
-    for (int i=1; i<4; i++) {
-        String filename = "src\\images\\wj_up_"+ i + ".png";
-        try {
-            jumps.add(ImageIO.read(new File(filename)));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
-     */
+
 
         smashing = new Animation(atk2, 100);
         animation = new Animation(images, 100);
         attacking = new Animation(atk, 100);
         idle = new Animation(x, 100);
         hit = new Animation(gotHit, 150);
-        /* jump= new Animation(jumps,100);*/
     }
 
     public int getxCoord() {
@@ -176,28 +166,6 @@ public class character {
     }
 
 
-//    public void moveUp() { irrelevant
-//        if (yCoord == 900) {
-//            yCoord -= 100;
-//            isIdle = false;
-//            jumping = true;
-//            attack = false;
-//            smash = false;
-//
-//        }
-//    }
-//
-//    public void moveDown() {
-//        if (yCoord + MOVE_AMT <= 900) {
-//            yCoord += MOVE_AMT;
-//            if (yCoord == 900) {
-//                isIdle = false;
-//                jumping = false;
-//                attack = false;
-//                smash = false;
-//            }
-//        }
-//    }
 
     public void attack() {
         attacking.resetCurrentFrame();
